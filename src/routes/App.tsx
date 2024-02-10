@@ -10,6 +10,9 @@ import Chatting from "../pages/chat";
 import ProfileCompany from "../pages/profile-company";
 import DaftarLowongan from "../pages/daftar-lowongan";
 import DaftarPelamar from "../pages/daftar-pelamar";
+import ProfileUser from "../pages/profile-user";
+import RiwayatLamaran from "../pages/riwayat-lamaran";
+import LowonganTersimpan from "../pages/lowongan-tersimpan";
 
 function App() {
   return (
@@ -24,8 +27,11 @@ function App() {
         <Route path="/detail" element={<Detail />} />
         <Route path="/chat" element={<Chatting />} />
         <Route path="/profilecompany" element={<ProfileCompany />} />
+        <Route path="/profileuser" element={<ProfileUser />} />
         <Route path="/daftarlowongan" element={<DaftarLowongan />} />
         <Route path="/daftarpelamar" element={<DaftarPelamar />} />
+        <Route path="/riwayatlamaran" element={<RiwayatLamaran />} />
+        <Route path="/lowongantersimpan" element={<LowonganTersimpan />} />
       </Routes>
     </BrowserRouter>
   );

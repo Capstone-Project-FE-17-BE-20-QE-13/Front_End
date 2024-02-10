@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 .message-body::-webkit-scrollbar,
-.modal-box::-webkit-scrollbar {
+.modal-box::-webkit-scrollbar,
+.register-form::-webkit-scrollbar {
   display: none;
 }

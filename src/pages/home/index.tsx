@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
+import Card from "../../components/Card";
 
 const Home = () => {
   return (
@@ -29,6 +30,7 @@ const Home = () => {
         </div>
         <div className="mx-20">
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
+          <Card position="It Consultant" company_name="PT. IT IndoCyber" address="Bogor, Jawa Barat" salary_range="1000.000 - 2000.000" />
           <div className="w-full flex my-6 p-[20px] border shadow-md rounded-md gap-5">
             <div className="w-[150px] h-[150px]">
               <img src="https://source.unsplash.com/random?job" className="h-full object-cover" alt="" />
