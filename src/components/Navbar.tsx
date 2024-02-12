@@ -1,6 +1,21 @@
 import React from "react";
+import { useAuth } from "../utils/contexts/auth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { token, changeToken } = useAuth();
+
+  const handleLogout = () => {
+    changeToken();
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: `Berhasil keluar`,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
   return (
     <>
       <div className="navbar bg-main px-10">
@@ -29,7 +44,7 @@ const Navbar = () => {
               <li>
                 <a className="justify-between">Profile</a>
               </li>
-              <li>
+              <li onClick={handleLogout}>
                 <a>Logout</a>
               </li>
             </ul>

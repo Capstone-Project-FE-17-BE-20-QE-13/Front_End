@@ -1,9 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
 import { FaPlus } from "react-icons/fa";
 import { IoTrash } from "react-icons/io5";
+import { useAuth } from "../../utils/contexts/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { jobseekerSchema } from "../../utils/apis/jobseekers/types";
+import { useForm } from "react-hook-form";
 
 const ProfileUser = () => {
+  const { js } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(jobseekerSchema),
+    defaultValues: {
+      full_name: "",
+      username: "",
+      password: "",
+      email: "",
+      address: "",
+      phone: "",
+      birth_date: "",
+      gender: "",
+      resume: "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("full_name", js?.full_name as string);
+    setValue("username", js?.username as string);
+    setValue("email", js?.email as string);
+    setValue("address", js?.address as string);
+    setValue("phone", js?.phone as string);
+    setValue("birth_date", js?.birth_date as string);
+    setValue("gender", js?.gender as string);
+    setValue("resume", js?.resume as string);
+  }, [js]);
   return (
     <>
       <Layout>
@@ -15,8 +50,8 @@ const ProfileUser = () => {
               </div>
             </div>
             <div className="mt-10">
-              <h1 className="text-3xl font-bold">John Doe</h1>
-              <p className="font-bold">john.doe@gmail.com</p>
+              <h1 className="text-3xl font-bold">{js.full_name}</h1>
+              <p className="font-bold">{js.email}</p>
               <div className="flex gap-20">
                 <div className="flex gap-10 my-10">
                   <div>
@@ -24,8 +59,8 @@ const ProfileUser = () => {
                     <p>Kontak</p>
                   </div>
                   <div>
-                    <p>Bandung, Jawa Barat</p>
-                    <p>081234123412</p>
+                    <p>{js.address}</p>
+                    <p>{js.phone}</p>
                   </div>
                 </div>
                 <div className="flex gap-10 my-10">
@@ -34,10 +69,10 @@ const ProfileUser = () => {
                     <p>Tanggal Lahir</p>
                   </div>
                   <div>
-                    <p>Laki-laki</p>
-                    <p>7 Januari 1998</p>
+                    <p>{js.gender}</p>
+                    <p>{js.birth_date}</p>
                   </div>
-                  <button className="w-[80px] h-10 p-1 rounded-md bg-secondary text-white" onClick={() => document.getElementById("my_modal_2").showModal()}>
+                  <button className="w-[80px] h-10 p-1 rounded-md bg-secondary text-white" onClick={() => document.getElementById("my_modal_1").showModal()}>
                     Edit
                   </button>
                 </div>
@@ -45,12 +80,7 @@ const ProfileUser = () => {
             </div>
           </div>
           <h1 className="text-xl font-bold mb-3">Ringkasan Pribadi</h1>
-          <p className="mb-5 text-justify">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit quae explicabo repellendus eius quidem doloremque quos dicta, exercitationem provident doloribus rerum libero mollitia aut dolorum aliquid autem esse. Excepturi
-            accusantium consequuntur a id nobis, labore repudiandae optio! Rerum eius excepturi totam facere placeat neque, nam maiores error consectetur dolorem laudantium provident ipsa animi aspernatur temporibus? Maiores, architecto.
-            Qui eligendi asperiores, magni dolor laudantium doloremque suscipit aliquid officiis possimus error corporis expedita dicta quod hic. Quia, soluta praesentium! Optio, aliquid ipsa. Placeat earum dolores consequatur aliquam
-            consectetur at dolorum beatae fugiat qui tempora libero quo, numquam corrupti maxime exercitationem esse magni.
-          </p>
+          <p className="mb-5 text-justify">{js.resume}</p>
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Riwayat Karir</h1>
             <button>
@@ -124,6 +154,37 @@ const ProfileUser = () => {
             </button>
           </div>
         </div>
+
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-center">Edit Data Company</h3>
+            <form className="flex flex-col gap-5">
+              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Lengkap" />
+              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Username" />
+              <input type="email" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Email" />
+              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Alamat" />
+              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Kontak" />
+              <label htmlFor="ttl">
+                Tanggal Lahir
+                <input type="date" id="ttl" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
+              </label>
+              <label>Jenis Kelamin</label>
+              <label className="label cursor-pointer">
+                <span className="label-text">Laki-laki</span>
+                <input type="radio" name="radio-10" value="Laki-laki" className="radio checked:bg-blue-500" />
+              </label>
+              <label className="label cursor-pointer">
+                <span className="label-text">Perempuan</span>
+                <input type="radio" name="radio-10" value="Perempuan" className="radio checked:bg-blue-500" />
+              </label>
+              <textarea name="resume" id="resume" placeholder="Resume" className="p-2 rounded-md drop-shadow-md outline-none" cols="30" rows="5"></textarea>
+              <input type="submit" placeholder="Edit" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
+            </form>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </Layout>
     </>
   );
