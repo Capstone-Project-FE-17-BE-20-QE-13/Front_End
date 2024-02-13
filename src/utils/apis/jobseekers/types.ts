@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const jobseekerSchema = z.object({
+  id: z.number().optional(),
   full_name: z.string().min(3, { message: "Name is required and must be at least 3 characters" }),
   username: z.string().min(3, { message: "Username must be at least 3 characters" }),
   email: z.string().email("Enter a valid email").min(1, { message: "Enter email" }),
@@ -18,10 +19,12 @@ export const jobseekerSchema = z.object({
 });
 
 export const careersSchema = z.object({
-  position: z.string(),
   company_name: z.string(),
-  start_date: z.string(),
-  end_date: z.string(),
+  date_start: z.string(),
+  date_end: z.string(),
+  id: z.number(),
+  jobseeker_id: z.number(),
+  position: z.string(),
 });
 
 export type JsType = z.infer<typeof jobseekerSchema>;

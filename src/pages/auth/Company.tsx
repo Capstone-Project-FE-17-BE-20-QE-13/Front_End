@@ -1,5 +1,5 @@
 import imageRegister from "../../assets/register-image.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { CompanyRegisterType, companyRegisterSchema } from "../../utils/apis/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -71,7 +71,12 @@ const Company = () => {
           <input type="submit" className="p-2 lg:p-[13px] lg:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none mb-4 mt-5" value="Register" />
         </form>
         <div>
-          <p className="text-center">Sudah Punya Akun? Masuk</p>
+          <p className="text-center font-semibold">
+            Sudah punya akun?{" "}
+            <Link to={"/logincompany"} className="text-primary hover:text-secondary">
+              Masuk
+            </Link>
+          </p>
         </div>
       </div>
     </div>

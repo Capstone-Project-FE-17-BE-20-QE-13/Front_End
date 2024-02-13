@@ -1,6 +1,6 @@
 import React from "react";
 import loginImage from "../../assets/login-image.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LoginType, loginSchema } from "../../utils/apis/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,7 +50,12 @@ const LoginCompany = () => {
             {errors.password && <p className="text-sm text-red-500 -mt-3">{errors.password.message}</p>}
             <input type="submit" className="p-2 sm:p-[13px] sm:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none my-5" value="Login" />
           </form>
-          <p className="text-center">Tidak punya akun? Daftar</p>
+          <p className="text-center">
+            Tidak punya akun?{" "}
+            <Link to={"/company"} className="text-primary hover:text-secondary">
+              Daftar
+            </Link>
+          </p>
         </div>
       </div>
     </div>
