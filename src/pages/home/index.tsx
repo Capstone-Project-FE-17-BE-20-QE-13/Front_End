@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../components/Layout";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import Card from "../../components/Card";

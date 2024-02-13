@@ -1,4 +1,3 @@
-import React from "react";
 import { useAuth } from "../utils/contexts/auth";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,13 +30,13 @@ const Navbar = () => {
           <div className="flex-none">
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>
-                <a href="#">Disimpan</a>
+                <Link to={"/lowongantersimpan"}>Disimpan</Link>
               </li>
               <li>
-                <a href="#">Riwayat</a>
+                <Link to={"/riwayatlamaran"}>Riwayat</Link>
               </li>
               <li>
-                <a href="#">Pesan</a>
+                <Link to={"/chat"}>Pesan</Link>
               </li>
             </ul>
             <div className="dropdown dropdown-end">

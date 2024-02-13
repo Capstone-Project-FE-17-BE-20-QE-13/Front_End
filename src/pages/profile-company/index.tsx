@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../../components/Layout";
 import { MdVerified } from "react-icons/md";
 import { RiImageAddFill } from "react-icons/ri";
@@ -33,9 +32,10 @@ const ProfileCompany = () => {
               <p>250+ employees</p>
               <p>softwareengineer.com</p>
             </div>
-            <button className="w-[80px] h-10 p-1 rounded-md bg-secondary text-white" onClick={() => document.getElementById("my_modal_2").showModal()}>
+            {/* <button className="w-[80px] h-10 p-1 rounded-md bg-secondary text-white" onClick={() => document?.getElementById("my_modal_2").showModal()}> */}
+            <label htmlFor="my_modal_7" className="btn w-[80px] h-10 p-1 rounded-md bg-secondary text-white">
               Edit
-            </button>
+            </label>
           </div>
           <h1 className="text-xl font-bold mb-3">Deskripsi</h1>
           <p className="mb-5 text-justify">
@@ -46,7 +46,8 @@ const ProfileCompany = () => {
           </p>
         </div>
 
-        <dialog id="my_modal_2" className="modal">
+        <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Edit Data Company</h3>
             <form className="flex flex-col gap-5">
@@ -68,14 +69,14 @@ const ProfileCompany = () => {
                 <option value="high">250+ employees</option>
               </select>
               <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Website" />
-              <textarea name="deskripsi" id="deskripsi" placeholder="Deskripsi Perusahaan" className="p-2 rounded-md drop-shadow-md outline-none" cols="30" rows="5"></textarea>
+              <textarea name="deskripsi" id="deskripsi" placeholder="Deskripsi Perusahaan" className="p-2 rounded-md drop-shadow-md outline-none" cols={30} rows={5}></textarea>
               <input type="submit" placeholder="Edit" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_7">
+            Close
+          </label>
+        </div>
       </Layout>
     </>
   );

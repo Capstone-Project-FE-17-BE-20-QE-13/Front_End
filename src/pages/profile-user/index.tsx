@@ -182,9 +182,9 @@ const ProfileUser = () => {
                     <p>{js.gender}</p>
                     <p>{js.birth_date}</p>
                   </div>
-                  <button className="w-[80px] h-10 p-1 rounded-md bg-secondary text-white" onClick={() => document.getElementById("my_modal_1").showModal()}>
+                  <label htmlFor="my_modal_7" className="btn w-[80px] h-10 p-1 rounded-md bg-secondary text-white">
                     Edit
-                  </button>
+                  </label>
                 </div>
               </div>
             </div>
@@ -193,9 +193,9 @@ const ProfileUser = () => {
           <p className="mb-5 text-justify">{js.resume}</p>
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Riwayat Karir</h1>
-            <button onClick={() => document.getElementById("my_modal_2").showModal()}>
+            <label htmlFor="my_modal_8" className="btn bg-transparent">
               <FaPlus className="text-2xl text-success" />
-            </button>
+            </label>
           </div>
           {careers &&
             careers.map((value: any, index: any) => (
@@ -211,9 +211,9 @@ const ProfileUser = () => {
             ))}
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Pendidikan</h1>
-            <button onClick={() => document.getElementById("my_modal_3").showModal()}>
+            <label htmlFor="my_modal_9" className="btn bg-transparent">
               <FaPlus className="text-2xl text-success" />
-            </button>
+            </label>
           </div>
           <div className="flex justify-around p-2 w-full border rounded-sm my-5">
             <h1>Tingkat Pendidikan</h1>
@@ -226,9 +226,9 @@ const ProfileUser = () => {
           </div>
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Lisensi & Sertifikasi</h1>
-            <button onClick={() => document.getElementById("my_modal_4").showModal()}>
+            <label htmlFor="my_modal_10" className="btn bg-transparent">
               <FaPlus className="text-2xl text-success" />
-            </button>
+            </label>
           </div>
           <div className="flex justify-around p-2 w-full border rounded-sm my-5">
             <h1>Nama Lisensi</h1>
@@ -241,9 +241,9 @@ const ProfileUser = () => {
           </div>
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Keahlian</h1>
-            <button onClick={() => document.getElementById("my_modal_5").showModal()}>
+            <label htmlFor="my_modal_11" className="btn bg-transparent">
               <FaPlus className="text-2xl text-success" />
-            </button>
+            </label>
           </div>
           <div className="flex justify-around p-2 w-full border rounded-sm my-5">
             <h1>Nama Keahlian</h1>
@@ -256,9 +256,9 @@ const ProfileUser = () => {
           </div>
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">CV</h1>
-            <button onClick={() => document.getElementById("my_modal_6").showModal()}>
+            <label htmlFor="my_modal_12" className="btn bg-transparent">
               <FaPlus className="text-2xl text-success" />
-            </button>
+            </label>
           </div>
           <div className="flex justify-around p-2 w-full border rounded-sm my-5">
             <h1>CV</h1>
@@ -271,7 +271,8 @@ const ProfileUser = () => {
           </div>
         </div>
 
-        <dialog id="my_modal_1" className="modal">
+        <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Edit Data Company</h3>
             <form method="dialog" className="flex flex-col gap-5" onSubmit={handleSubmit(handleUpdateProfile)}>
@@ -296,7 +297,7 @@ const ProfileUser = () => {
                   Perempuan
                 </label>
               </div>
-              <textarea id="resume" {...register("resume")} placeholder="Resume" className="p-2 rounded-md drop-shadow-md outline-none" cols="30" rows="5"></textarea>
+              <textarea id="resume" {...register("resume")} placeholder="Resume" className="p-2 rounded-md drop-shadow-md outline-none" cols={30} rows={5}></textarea>
               {(() => {
                 if (isSuccess == "yes") {
                   return (
@@ -323,12 +324,13 @@ const ProfileUser = () => {
               <input type="submit" value="Edit" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_7">
+            Close
+          </label>
+        </div>
 
-        <dialog id="my_modal_2" className="modal">
+        <input type="checkbox" id="my_modal_8" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Riwayat Karir</h3>
             <form method="dialog" className="flex flex-col gap-5" onSubmit={careerSubmit(handleCareerAdd)}>
@@ -368,12 +370,13 @@ const ProfileUser = () => {
               <input type="submit" value="Tambah" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_8">
+            Close
+          </label>
+        </div>
 
-        <dialog id="my_modal_3" className="modal">
+        <input type="checkbox" id="my_modal_9" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Pendidikan</h3>
             <form method="dialog" className="flex flex-col gap-5">
@@ -386,12 +389,13 @@ const ProfileUser = () => {
               <input type="submit" value="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_9">
+            Close
+          </label>
+        </div>
 
-        <dialog id="my_modal_4" className="modal">
+        <input type="checkbox" id="my_modal_10" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Lisensi & Sertifikasi</h3>
             <form method="dialog" className="flex flex-col gap-5">
@@ -407,26 +411,28 @@ const ProfileUser = () => {
               <input type="submit" value="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_10">
+            Close
+          </label>
+        </div>
 
-        <dialog id="my_modal_5" className="modal">
+        <input type="checkbox" id="my_modal_11" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Keahlian</h3>
             <form method="dialog" className="flex flex-col gap-5">
               <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Keahlian" />
-              <textarea id="deskripsi" placeholder="Deskripsi" className="p-2 rounded-md drop-shadow-md outline-none" cols="30" rows="5"></textarea>
+              <textarea id="deskripsi" placeholder="Deskripsi" className="p-2 rounded-md drop-shadow-md outline-none" cols={30} rows={5}></textarea>
               <input type="submit" value="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_11">
+            Close
+          </label>
+        </div>
 
-        <dialog id="my_modal_6" className="modal">
+        <input type="checkbox" id="my_modal_12" className="modal-toggle" />
+        <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Curiculum Vitae</h3>
             <form className="flex flex-col gap-5">
@@ -438,10 +444,10 @@ const ProfileUser = () => {
               <input type="submit" placeholder="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
             </form>
           </div>
-          <form method="dialog" className="modal-backdrop">
-            <button>close</button>
-          </form>
-        </dialog>
+          <label className="modal-backdrop" htmlFor="my_modal_12">
+            Close
+          </label>
+        </div>
       </Layout>
     </>
   );

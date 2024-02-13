@@ -1,6 +1,4 @@
-import React from "react";
 import Layout from "../../components/Layout";
-import { IoMdChatboxes } from "react-icons/io";
 import { IoTrash } from "react-icons/io5";
 
 const LowonganTersimpan = () => {

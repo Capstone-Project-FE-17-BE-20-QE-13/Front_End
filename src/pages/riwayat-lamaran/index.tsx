@@ -1,6 +1,4 @@
-import React from "react";
 import Layout from "../../components/Layout";
-import { IoBookmark } from "react-icons/io5";
 import { IoMdChatboxes } from "react-icons/io";
 
 const RiwayatLamaran = () => {

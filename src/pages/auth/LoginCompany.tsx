@@ -1,4 +1,3 @@
-import React from "react";
 import loginImage from "../../assets/login-image.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";

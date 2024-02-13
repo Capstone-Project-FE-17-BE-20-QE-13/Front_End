@@ -1,4 +1,3 @@
-import React from "react";
 import loginImage from "../../assets/login-image.png";
 import { Link } from "react-router-dom";
 
