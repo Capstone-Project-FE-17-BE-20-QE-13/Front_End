@@ -19,7 +19,7 @@ const ProfileUser = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<JsType>({
     resolver: zodResolver(jobseekerSchema),
     defaultValues: {
