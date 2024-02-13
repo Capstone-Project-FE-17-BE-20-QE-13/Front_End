@@ -68,7 +68,7 @@ const Company = () => {
             </select>
             {errors.company_size && <p className="text-sm text-red-500 -mt-3">{errors.company_size.message}</p>}
           </div>
-          <input type="submit" className="p-2 lg:p-[13px] lg:w-[320px] bg-secondary text-white rounded-xl drop-shadow-md outline-none mb-4 mt-5" value="Register" />
+          <input type="submit" className="p-2 lg:p-[13px] lg:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none mb-4 mt-5" value="Register" />
         </form>
         <div>
           <p className="text-center">Sudah Punya Akun? Masuk</p>

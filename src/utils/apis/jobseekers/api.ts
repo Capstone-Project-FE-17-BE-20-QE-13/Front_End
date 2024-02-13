@@ -10,3 +10,21 @@ export const getJs = async () => {
     throw new Error(error.message);
   }
 };
+
+export const updateUser = async (body: JsType) => {
+  try {
+    const response = await axiosWithConfig.put("jobseekers", body);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const getCareers = async () => {
+  try {
+    const response = await axiosWithConfig.get("/all-careers");
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response);
+  }
+};

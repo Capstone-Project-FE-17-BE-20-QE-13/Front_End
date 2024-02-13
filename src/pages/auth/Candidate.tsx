@@ -50,7 +50,7 @@ const Candidate = () => {
           {errors.username && <p className="text-sm text-red-500 -mt-3">{errors.username.message}</p>}
           <input type="password" {...register("password")} className="p-2 lg:p-[13px] lg:w-[320px] rounded-xl drop-shadow-md outline-none" placeholder="Password" />
           {errors.password && <p className="text-sm text-red-500 -mt-3">{errors.password.message}</p>}
-          <input type="submit" className="p-2 lg:p-[13px] lg:w-[320px] bg-secondary text-white rounded-xl drop-shadow-md outline-none mb-4 mt-16" value="Register" />
+          <input type="submit" className="p-2 lg:p-[13px] lg:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none mb-4 mt-16" value="Register" />
         </form>
         <div>
           <p className="text-center">Already have an account? Sign In</p>

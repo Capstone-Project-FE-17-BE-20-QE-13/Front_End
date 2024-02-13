@@ -48,7 +48,7 @@ const LoginCompany = () => {
             {errors.email && <p className="text-sm text-red-500 -mt-3">{errors.email.message}</p>}
             <input type="password" {...register("password")} className="p-2 sm:p-[13px] sm:w-[320px] rounded-xl drop-shadow-md outline-none" placeholder="Password" />
             {errors.password && <p className="text-sm text-red-500 -mt-3">{errors.password.message}</p>}
-            <input type="submit" className="p-2 sm:p-[13px] sm:w-[320px] bg-secondary text-white rounded-xl drop-shadow-md outline-none my-5" value="Login" />
+            <input type="submit" className="p-2 sm:p-[13px] sm:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none my-5" value="Login" />
           </form>
           <p className="text-center">Tidak punya akun? Daftar</p>
         </div>

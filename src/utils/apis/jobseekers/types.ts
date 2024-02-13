@@ -9,11 +9,20 @@ export const jobseekerSchema = z.object({
   birth_date: z.string(),
   gender: z.string(),
   resume: z.string(),
-  Careers: z.string().array(),
-  Educations: z.string().array(),
-  Cvs: z.string().array(),
-  Licenses: z.string().array(),
-  Skills: z.string().array(),
+  password: z.string().optional(),
+  Careers: z.string().array().optional(),
+  Educations: z.string().array().optional(),
+  Cvs: z.string().array().optional(),
+  Licenses: z.string().array().optional(),
+  Skills: z.string().array().optional(),
+});
+
+export const careersSchema = z.object({
+  position: z.string(),
+  company_name: z.string(),
+  start_date: z.string(),
+  end_date: z.string(),
 });
 
 export type JsType = z.infer<typeof jobseekerSchema>;
+export type CareersType = z.infer<typeof careersSchema>;
