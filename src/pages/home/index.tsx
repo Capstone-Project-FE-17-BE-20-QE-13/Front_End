@@ -1,15 +1,41 @@
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import Card from "../../components/Card";
+import { getAllVacancies } from "../../utils/apis/vacancy/api";
+import { AllVacancies } from "../../utils/apis/vacancy/types";
+import { Link } from "react-router-dom";
 
 const Home = () => {
+  const [vacancies, setVacancies] = useState<AllVacancies[]>([]);
+  useEffect(() => {
+    fetchAllVacancies();
+  }, []);
+
+  const fetchAllVacancies = async () => {
+    try {
+      const result = await getAllVacancies();
+      setVacancies(result.data);
+      console.log(result.data);
+    } catch (error: any) {
+      (error as Error).message;
+    }
+  };
+
   return (
     <>
       <Layout>
         <div className="my-10">
           <form className="flex justify-center gap-5">
-            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Cari Lowongan" />
-            <select name="size" id="size" className="p-2 rounded-xl drop-shadow-md outline-none">
+            <input
+              type="text"
+              className="p-2 rounded-xl drop-shadow-md outline-none"
+              placeholder="Cari Lowongan"
+            />
+            <select
+              name="size"
+              id="size"
+              className="p-2 rounded-xl drop-shadow-md outline-none"
+            >
               <option value="" disabled selected>
                 Bidang Pekerjaan
               </option>
@@ -23,67 +49,32 @@ const Home = () => {
               <option value="manajemen">Manajemen</option>
               <option value="perkantoran">Administrasi Perkantoran</option>
             </select>
-            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Lokasi" />
-            <input type="submit" className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none" value="Cari" />
+            <input
+              type="text"
+              className="p-2 rounded-xl drop-shadow-md outline-none"
+              placeholder="Lokasi"
+            />
+            <input
+              type="submit"
+              className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none"
+              value="Cari"
+            />
           </form>
         </div>
         <div className="mx-20">
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
-          <Card position="It Consultant" company_name="PT. IT IndoCyber" address="Bogor, Jawa Barat" salary_range="1000.000 - 2000.000" />
-          <div className="w-full flex my-6 p-[20px] border shadow-md rounded-md gap-5">
-            <div className="w-[150px] h-[150px]">
-              <img src="https://source.unsplash.com/random?job" className="h-full object-cover" alt="" />
-            </div>
-            <div className="flex flex-col gap-5 grow">
-              <div>
-                <h1 className="text-md font-bold">Staff IT</h1>
-                <p>PT. Kimia Farma</p>
-              </div>
-              <div>
-                <p>Surabaya, Jawa Timur</p>
-                <p>Rp 5.000.000 - Rp 5.500.000</p>
-              </div>
-            </div>
-            <div>
-              <IoBookmark className="text-2xl" />
-            </div>
-          </div>
-          <div className="w-full flex my-6 p-[20px] border shadow-md rounded-md gap-5">
-            <div className="w-[150px] h-[150px]">
-              <img src="https://source.unsplash.com/random?job" className="h-full object-cover" alt="" />
-            </div>
-            <div className="flex flex-col gap-5 grow">
-              <div>
-                <h1 className="text-md font-bold">Staff IT</h1>
-                <p>PT. Kimia Farma</p>
-              </div>
-              <div>
-                <p>Surabaya, Jawa Timur</p>
-                <p>Rp 5.000.000 - Rp 5.500.000</p>
-              </div>
-            </div>
-            <div>
-              <IoBookmarkOutline className="text-2xl" />
-            </div>
-          </div>
-          <div className="w-full flex my-6 p-[20px] border shadow-md rounded-md gap-5">
-            <div className="w-[150px] h-[150px]">
-              <img src="https://source.unsplash.com/random?job" className="h-full object-cover" alt="" />
-            </div>
-            <div className="flex flex-col gap-5 grow">
-              <div>
-                <h1 className="text-md font-bold">Staff IT</h1>
-                <p>PT. Kimia Farma</p>
-              </div>
-              <div>
-                <p>Surabaya, Jawa Timur</p>
-                <p>Rp 5.000.000 - Rp 5.500.000</p>
-              </div>
-            </div>
-            <div>
-              <IoBookmarkOutline className="text-2xl" />
-            </div>
-          </div>
+          {vacancies &&
+            vacancies.map((item, index) => (
+              <Link to={`/detail/${item.id}`}>
+                <Card
+                  position={item.name}
+                  company_name={item.job_type}
+                  address="Jakarta"
+                  salary_range={item.salary_range}
+                  key={index}
+                />
+              </Link>
+            ))}
         </div>
       </Layout>
     </>

@@ -24,7 +24,7 @@ function App() {
         <Route path="/role" element={<Role />} />
         <Route path="/candidate" element={<Candidate />} />
         <Route path="/company" element={<Company />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/chat" element={<Chatting />} />
         <Route path="/profilecompany" element={<ProfileCompany />} />
         <Route path="/profileuser" element={<ProfileUser />} />
