@@ -23,3 +23,16 @@ export interface VacanciesProps {
   requirement?: string;
   saveVacancy?: React.MouseEventHandler;
 }
+
+export interface AllVacancies {
+  id: number;
+  company_id: number;
+  name: string;
+  job_type: string;
+  salary_range: string;
+  category: string;
+  job_desc: string;
+  job_req: string;
+  status: string;
+  saveVacancy?: React.MouseEventHandler;
+}
