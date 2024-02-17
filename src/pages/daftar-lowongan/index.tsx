@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { FaPlus, FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import { FaPlus, FaTrashAlt } from "react-icons/fa";
 import { IoIosCloseCircle, IoIosOpen } from "react-icons/io";
 import { VacancyType, vacanciesSchema } from "../../utils/apis/vacancy/types";
 import { zodResolver } from "@hookform/resolvers/zod";
