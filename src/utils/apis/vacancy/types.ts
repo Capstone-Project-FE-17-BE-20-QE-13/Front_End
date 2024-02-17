@@ -34,5 +34,6 @@ export interface AllVacancies {
   job_desc: string;
   job_req: string;
   status: string;
+  adress: string;
   saveVacancy?: React.MouseEventHandler;
 }

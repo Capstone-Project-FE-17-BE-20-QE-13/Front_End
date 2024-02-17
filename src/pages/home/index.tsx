@@ -69,7 +69,7 @@ const Home = () => {
                 <Card
                   position={item.name}
                   company_name={item.job_type}
-                  address="Jakarta"
+                  address={item.adress}
                   salary_range={item.salary_range}
                   key={index}
                 />
