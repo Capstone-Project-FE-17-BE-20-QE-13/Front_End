@@ -57,7 +57,7 @@ const Home = () => {
               ) : (
                 <Link to={`/logincandidate`}>
                   <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
-                </Link>
+                </Link> 
               )
             )}
         </div>

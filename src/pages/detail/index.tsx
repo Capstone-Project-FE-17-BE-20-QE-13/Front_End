@@ -5,7 +5,7 @@ import { getDetailVacancy } from "../../utils/apis/vacancy/api";
 import { VacancyType } from "../../utils/apis/vacancy/types";
 import Swal from "sweetalert2";
 import { addToFavorite } from "../../utils/apis/favorite/api";
-import { addToApplication } from "../../utils/apis/applyjob/api";
+import { addToApplication } from "../../utils/apis/applications/api";
 
 const Detail = () => {
   const { id } = useParams();
