@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface Vacancies {
   id: number;
   position: string;
@@ -37,3 +39,18 @@ export interface AllVacancies {
   adress: string;
   saveVacancy?: React.MouseEventHandler;
 }
+
+export const vacanciesSchema = z.object({
+  id: z.number().optional(),
+  company_id: z.number().optional(),
+  name: z.string(),
+  address: z.string(),
+  job_type: z.string(),
+  salary_range: z.string(),
+  category: z.string(),
+  job_desc: z.string(),
+  job_req: z.string(),
+  status: z.string(),
+});
+
+export type VacancyType = z.infer<typeof vacanciesSchema>;

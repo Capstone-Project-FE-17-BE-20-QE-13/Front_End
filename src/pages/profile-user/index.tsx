@@ -4,17 +4,19 @@ import { FaPlus } from "react-icons/fa";
 import { IoTrash } from "react-icons/io5";
 import { useAuth } from "../../utils/contexts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CareersType, JsType, careersSchema, jobseekerSchema } from "../../utils/apis/jobseekers/types";
+import { CareersType, EducationType, JobseekerType, JsType, SkillType, careersSchema, educationSchema, jobseekerSchema, skillSchema } from "../../utils/apis/jobseekers/types";
 import { useForm } from "react-hook-form";
-import { getCareers, postCareer, updateUser } from "../../utils/apis/jobseekers/api";
+import { getCareers, getEducation, getSkill, postCareer, postEducation, postSkill, updateUser } from "../../utils/apis/jobseekers/api";
 import { IoMdDocument } from "react-icons/io";
 import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 
 const ProfileUser = () => {
-  const { js } = useAuth();
+  const { js, fetchJs } = useAuth();
   const [isSuccess, setIsSuccess] = useState<string>("");
   const [careers, setCareers] = useState<CareersType[]>();
+  const [education, setEducation] = useState<EducationType[]>();
+  const [skill, setSkill] = useState<SkillType[]>();
   const {
     register,
     handleSubmit,
@@ -51,6 +53,35 @@ const ProfileUser = () => {
     },
   });
 
+  const {
+    register: educationRegister,
+    handleSubmit: educationSubmit,
+    setValue: educationSetValue,
+  } = useForm<EducationType>({
+    resolver: zodResolver(educationSchema),
+    defaultValues: {
+      ed_level: "",
+      major: "",
+      grad_date: "",
+      id: 0,
+      jobseeker_id: 0,
+    },
+  });
+
+  const {
+    register: skillRegister,
+    handleSubmit: skillSubmit,
+    setValue: skillSetValue,
+  } = useForm<SkillType>({
+    resolver: zodResolver(skillSchema),
+    defaultValues: {
+      skill: "",
+      description: "",
+      id: 0,
+      jobseeker_id: 0,
+    },
+  });
+
   useEffect(() => {
     setValue("full_name", js?.full_name as string);
     setValue("username", js?.username as string);
@@ -61,13 +92,48 @@ const ProfileUser = () => {
     setValue("gender", js?.gender as string);
     setValue("resume", js?.resume as string);
     careerSetValue("jobseeker_id", js?.id as number);
+    educationSetValue("jobseeker_id", js?.id as number);
+    skillSetValue("jobseeker_id", js?.id as number);
   }, [js]);
 
-  const handleUpdateProfile = async (body: JsType) => {
+  const handleUpdateProfile = async (body: JobseekerType) => {
     const data = body;
     if (data.password == "") {
       delete data.password;
     }
+
+    if (data.email == js.email) {
+      delete data.email;
+    }
+
+    if (data.username == js.username) {
+      delete data.username;
+    }
+
+    if (data.full_name == js.full_name) {
+      delete data.full_name;
+    }
+
+    if (data.address == js.address) {
+      delete data.address;
+    }
+
+    if (data.phone == js.phone) {
+      delete data.phone;
+    }
+
+    if (data.birth_date == js.birth_date) {
+      delete data.birth_date;
+    }
+
+    if (data.gender == js.gender) {
+      delete data.gender;
+    }
+
+    if (data.resume == js.resume) {
+      delete data.resume;
+    }
+
     console.log("data = ", data);
     try {
       const result = await updateUser(data);
@@ -77,6 +143,7 @@ const ProfileUser = () => {
         setIsSuccess("");
         // window.location.reload();
       }, 3000);
+      fetchJs()
     } catch (error: any) {
       console.log(error as Error);
       setIsSuccess("no");
@@ -123,7 +190,99 @@ const ProfileUser = () => {
             console.log(res);
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: "Data has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => console.log(err.response));
+      }
+    });
+  };
+
+  const handleEducationAdd = async (body: EducationType) => {
+    console.log(body);
+    try {
+      const result = await postEducation(body);
+      console.log(result);
+      setIsSuccess("yes");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+      reset();
+    } catch (error: any) {
+      console.log(error as Error);
+      setIsSuccess("no");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+    }
+  };
+
+  const handleDeleteEducation = (id: number) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosWithConfig
+          .delete(`education/${id}`)
+          .then((res) => {
+            console.log(res);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Data has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => console.log(err.response));
+      }
+    });
+  };
+
+  const handleSkillAdd = async (body: SkillType) => {
+    console.log(body);
+    try {
+      const result = await postSkill(body);
+      console.log(result);
+      setIsSuccess("yes");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+      reset();
+    } catch (error: any) {
+      console.log(error as Error);
+      setIsSuccess("no");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+    }
+  };
+
+  const handleDeleteSkill = (id: number) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosWithConfig
+          .delete(`skill/${id}`)
+          .then((res) => {
+            console.log(res);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Data has been deleted.",
               icon: "success",
             });
           })
@@ -134,12 +293,32 @@ const ProfileUser = () => {
 
   useEffect(() => {
     getDataCareers();
-  }, [careers]);
+    getDataEducation();
+    getDataSkill();
+  }, [careers, education, skill]);
 
   const getDataCareers = async () => {
     try {
       const result = await getCareers();
       setCareers(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataEducation = async () => {
+    try {
+      const result = await getEducation();
+      setEducation(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataSkill = async () => {
+    try {
+      const result = await getSkill();
+      setSkill(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -215,15 +394,18 @@ const ProfileUser = () => {
               <FaPlus className="text-2xl text-success" />
             </label>
           </div>
-          <div className="flex justify-around p-2 w-full border rounded-sm my-5">
-            <h1>Tingkat Pendidikan</h1>
-            <h1>Jurusan</h1>
-            <h1>Tahun Lulus</h1>
-            <h1></h1>
-            <button>
-              <IoTrash className="text-2xl text-red-500" />
-            </button>
-          </div>
+          {education &&
+            education.map((value: any, index: any) => (
+              <div key={index} className="flex justify-around p-2 w-full border rounded-sm my-5">
+                <h1>{value.ed_level}</h1>
+                <h1>{value.major}</h1>
+                <h1>{value.grad_date}</h1>
+                <h1></h1>
+                <button onClick={() => handleDeleteEducation(value.id)}>
+                  <IoTrash className="text-2xl text-red-500" />
+                </button>
+              </div>
+            ))}
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Lisensi & Sertifikasi</h1>
             <label htmlFor="my_modal_10" className="btn bg-transparent">
@@ -245,15 +427,18 @@ const ProfileUser = () => {
               <FaPlus className="text-2xl text-success" />
             </label>
           </div>
-          <div className="flex justify-around p-2 w-full border rounded-sm my-5">
-            <h1>Nama Keahlian</h1>
-            <h1>Deskripsi</h1>
-            <h1></h1>
-            <h1></h1>
-            <button>
-              <IoTrash className="text-2xl text-red-500" />
-            </button>
-          </div>
+          {skill &&
+            skill.map((value: any, index: any) => (
+              <div key={index} className="flex justify-around p-2 w-full border rounded-sm my-5">
+                <h1>{value.skill}</h1>
+                <h1>{value.description}</h1>
+                <h1></h1>
+                <h1></h1>
+                <button onClick={() => handleDeleteSkill(value.id)}>
+                  <IoTrash className="text-2xl text-red-500" />
+                </button>
+              </div>
+            ))}
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">CV</h1>
             <label htmlFor="my_modal_12" className="btn bg-transparent">
@@ -379,14 +564,37 @@ const ProfileUser = () => {
         <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Pendidikan</h3>
-            <form method="dialog" className="flex flex-col gap-5">
-              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Tingkat Pendidikan" />
-              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Tahun Lulus" />
+            <form method="dialog" className="flex flex-col gap-5" onSubmit={educationSubmit(handleEducationAdd)}>
+              <input type="text" {...educationRegister("ed_level")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Tingkat Pendidikan" />
+              <input type="text" {...educationRegister("major")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Jurusan" />
               <label htmlFor="lulus">
                 Tahun Lulus
-                <input type="date" id="lulus" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
+                <input type="date" {...educationRegister("grad_date")} id="lulus" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
               </label>
-              <input type="submit" value="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
+              {(() => {
+                if (isSuccess == "yes") {
+                  return (
+                    <div role="alert" className="alert alert-success my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>tambah karir berhasil.</span>
+                    </div>
+                  );
+                } else if (isSuccess == "no") {
+                  return (
+                    <div role="alert" className="alert alert-error my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>Error! tambah karir gagal.</span>
+                    </div>
+                  );
+                } else {
+                  return <div></div>;
+                }
+              })()}
+              <input type="submit" value="Tambah" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
           <label className="modal-backdrop" htmlFor="my_modal_9">
@@ -420,10 +628,33 @@ const ProfileUser = () => {
         <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Keahlian</h3>
-            <form method="dialog" className="flex flex-col gap-5">
-              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Keahlian" />
-              <textarea id="deskripsi" placeholder="Deskripsi" className="p-2 rounded-md drop-shadow-md outline-none" cols={30} rows={5}></textarea>
-              <input type="submit" value="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
+            <form method="dialog" className="flex flex-col gap-5" onSubmit={skillSubmit(handleSkillAdd)}>
+              <input type="text" {...skillRegister("skill")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Keahlian" />
+              <textarea id="deskripsi" {...skillRegister("description")} placeholder="Deskripsi" className="p-2 rounded-md drop-shadow-md outline-none" cols={30} rows={5}></textarea>
+              {(() => {
+                if (isSuccess == "yes") {
+                  return (
+                    <div role="alert" className="alert alert-success my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>tambah keahlian berhasil.</span>
+                    </div>
+                  );
+                } else if (isSuccess == "no") {
+                  return (
+                    <div role="alert" className="alert alert-error my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>Error! tambah keahlian gagal.</span>
+                    </div>
+                  );
+                } else {
+                  return <div></div>;
+                }
+              })()}
+              <input type="submit" value="Tambah" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
           <label className="modal-backdrop" htmlFor="my_modal_11">

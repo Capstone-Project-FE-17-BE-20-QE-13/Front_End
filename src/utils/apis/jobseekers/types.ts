@@ -10,7 +10,7 @@ export const jobseekerSchema = z.object({
   birth_date: z.string(),
   gender: z.string(),
   resume: z.string(),
-  password: z.string().optional(),
+  password: z.string().min(8).optional(),
   Careers: z.string().array().optional(),
   Educations: z.string().array().optional(),
   Cvs: z.string().array().optional(),
@@ -27,5 +27,34 @@ export const careersSchema = z.object({
   position: z.string(),
 });
 
+export const educationSchema = z.object({
+  ed_level: z.string(),
+  major: z.string(),
+  grad_date: z.string(),
+  id: z.number(),
+  jobseeker_id: z.number(),
+});
+
+export const skillSchema = z.object({
+  skill: z.string(),
+  description: z.string(),
+  id: z.number(),
+  jobseeker_id: z.number(),
+});
+
 export type JsType = z.infer<typeof jobseekerSchema>;
 export type CareersType = z.infer<typeof careersSchema>;
+export type EducationType = z.infer<typeof educationSchema>;
+export type SkillType = z.infer<typeof skillSchema>;
+
+export interface JobseekerType {
+  full_name?: string;
+  username?: string;
+  email?: string;
+  address?: string;
+  phone?: string;
+  birth_date?: string;
+  gender?: string;
+  resume?: string;
+  password?: string;
+}

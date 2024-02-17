@@ -4,8 +4,10 @@ import Card from "../../components/Card";
 import { getAllVacancies } from "../../utils/apis/vacancy/api";
 import { AllVacancies } from "../../utils/apis/vacancy/types";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../utils/contexts/auth";
 
 const Home = () => {
+  const { token } = useAuth();
   const [vacancies, setVacancies] = useState<AllVacancies[]>([]);
   useEffect(() => {
     fetchAllVacancies();
@@ -15,7 +17,6 @@ const Home = () => {
     try {
       const result = await getAllVacancies();
       setVacancies(result.data);
-      console.log(result.data);
     } catch (error: any) {
       (error as Error).message;
     }
@@ -26,16 +27,8 @@ const Home = () => {
       <Layout>
         <div className="my-10">
           <form className="flex justify-center gap-5">
-            <input
-              type="text"
-              className="p-2 rounded-xl drop-shadow-md outline-none"
-              placeholder="Cari Lowongan"
-            />
-            <select
-              name="size"
-              id="size"
-              className="p-2 rounded-xl drop-shadow-md outline-none"
-            >
+            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Cari Lowongan" />
+            <select name="size" id="size" className="p-2 rounded-xl drop-shadow-md outline-none">
               <option value="" disabled selected>
                 Bidang Pekerjaan
               </option>
@@ -49,32 +42,24 @@ const Home = () => {
               <option value="manajemen">Manajemen</option>
               <option value="perkantoran">Administrasi Perkantoran</option>
             </select>
-            <input
-              type="text"
-              className="p-2 rounded-xl drop-shadow-md outline-none"
-              placeholder="Lokasi"
-            />
-            <input
-              type="submit"
-              className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none"
-              value="Cari"
-            />
+            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Lokasi" />
+            <input type="submit" className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none" value="Cari" />
           </form>
         </div>
         <div className="mx-20">
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
           {vacancies &&
-            vacancies.map((item, index) => (
-              <Link to={`/detail/${item.id}`}>
-                <Card
-                  position={item.name}
-                  company_name={item.job_type}
-                  address={item.adress}
-                  salary_range={item.salary_range}
-                  key={index}
-                />
-              </Link>
-            ))}
+            vacancies.map((item, index) =>
+              token != "" ? (
+                <Link to={`/detail/${item.id}`}>
+                  <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
+                </Link>
+              ) : (
+                <Link to={`/logincandidate`}>
+                  <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
+                </Link>
+              )
+            )}
         </div>
       </Layout>
     </>

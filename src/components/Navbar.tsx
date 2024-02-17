@@ -1,13 +1,27 @@
 import { useAuth } from "../utils/contexts/auth";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthCompany } from "../utils/contexts/auth_company";
 
 const Navbar = () => {
   const { token, changeToken } = useAuth();
+  const { tokenCompany, changeTokenCompany } = useAuthCompany();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     changeToken();
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: `Berhasil keluar`,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    navigate("/role");
+  };
+
+  const handleLogoutCompany = () => {
+    changeTokenCompany();
     Swal.fire({
       position: "center",
       icon: "success",
@@ -58,10 +72,47 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <div className="flex-none">
+          <div className={`flex-none ${tokenCompany && "hidden"}`}>
             <Link to={"/role"} className="btn bg-[#FE7A36] border-none text-white">
               Daftar
             </Link>
+          </div>
+        )}
+
+        {tokenCompany && (
+          <div className="flex-none">
+            <ul className="hidden sm:flex gap-5 text-white mx-5">
+              <li>
+                <Link to={"/chat"}>Pesan</Link>
+              </li>
+            </ul>
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                </div>
+              </div>
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li>
+                  <Link to={"/profilecompany"} className="justify-between">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/daftarlowongan"} className="justify-between">
+                    Daftar Lowongan
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/daftarpelamar"} className="justify-between">
+                    Daftar Pelamar
+                  </Link>
+                </li>
+                <li onClick={handleLogoutCompany}>
+                  <a>Logout</a>
+                </li>
+              </ul>
+            </div>
           </div>
         )}
       </div>

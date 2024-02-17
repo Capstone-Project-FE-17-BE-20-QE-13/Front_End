@@ -5,8 +5,10 @@ import { LoginType, loginSchema } from "../../utils/apis/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { companyLogin } from "../../utils/apis/auth/api";
 import Swal from "sweetalert2";
+import { useAuthCompany } from "../../utils/contexts/auth_company";
 
 const LoginCompany = () => {
+  const {changeTokenCompany} = useAuthCompany();
   const navigate = useNavigate();
   const {
     register,
@@ -17,6 +19,7 @@ const LoginCompany = () => {
   const handleLogin = async (body: LoginType) => {
     try {
       const result = await companyLogin(body);
+      changeTokenCompany(result?.token);
       Swal.fire({
         position: "center",
         icon: "success",
