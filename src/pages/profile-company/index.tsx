@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { updateCompany } from "../../utils/apis/company/api";
 
 const ProfileCompany = () => {
-  const { company } = useAuthCompany();
+  const { company, fetchCompany } = useAuthCompany();
   const [isSuccess, setIsSuccess] = useState<string>("");
   const { register, handleSubmit, setValue } = useForm<CompanyType>({
     resolver: zodResolver(companySchema),
@@ -63,6 +63,7 @@ const ProfileCompany = () => {
         setIsSuccess("");
         // window.location.reload();
       }, 3000);
+      fetchCompany()
     } catch (error: any) {
       console.log(error as Error);
       setIsSuccess("no");

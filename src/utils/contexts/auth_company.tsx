@@ -7,12 +7,14 @@ interface ContextCompany {
   tokenCompany: string;
   company: Partial<CompanyType>;
   changeTokenCompany: (token?: string) => void;
+  fetchCompany: () => void
 }
 
 const InitialState = {
   tokenCompany: "",
   company: {},
   changeTokenCompany: () => {},
+  fetchCompany: () => {}
 };
 
 const AuthCompanyContext = createContext<ContextCompany>(InitialState);
@@ -58,6 +60,7 @@ export const AuthCompanyProvider = ({ children }: { children: ReactNode }) => {
     tokenCompany,
     company,
     changeTokenCompany,
+    fetchCompany
   };
 
   return <AuthCompanyContext.Provider value={AuthCompanyContextValue}>{children}</AuthCompanyContext.Provider>;

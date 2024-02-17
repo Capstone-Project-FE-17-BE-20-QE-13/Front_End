@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 
 const ProfileUser = () => {
-  const { js } = useAuth();
+  const { js, fetchJs } = useAuth();
   const [isSuccess, setIsSuccess] = useState<string>("");
   const [careers, setCareers] = useState<CareersType[]>();
   const [education, setEducation] = useState<EducationType[]>();
@@ -143,6 +143,7 @@ const ProfileUser = () => {
         setIsSuccess("");
         // window.location.reload();
       }, 3000);
+      fetchJs()
     } catch (error: any) {
       console.log(error as Error);
       setIsSuccess("no");

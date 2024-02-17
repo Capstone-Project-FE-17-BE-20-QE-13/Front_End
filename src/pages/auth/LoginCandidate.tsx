@@ -20,6 +20,7 @@ const LoginCandidate = () => {
     try {
       const result = await candidateLogin(body);
       changeToken(result?.token);
+      console.log(result)
       Swal.fire({
         position: "center",
         icon: "success",

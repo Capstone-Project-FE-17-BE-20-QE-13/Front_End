@@ -7,12 +7,14 @@ interface Context {
   token: string;
   js: Partial<JsType>;
   changeToken: (token?: string) => void;
+  fetchJs: () => void
 }
 
 const InitialState = {
   token: "",
   js: {},
   changeToken: () => {},
+  fetchJs: () => {}
 };
 
 const AuthContext = createContext<Context>(InitialState);
@@ -58,6 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     token,
     js,
     changeToken,
+    fetchJs
   };
 
   return <AuthContext.Provider value={AuthContextValue}>{children}</AuthContext.Provider>;
