@@ -20,7 +20,7 @@ const Card: FC<VacanciesProps> = ({ position, company_name, address, salary_rang
           </div>
         </div>
         <div>
-          <IoBookmark className="text-2xl" />
+          <IoBookmark className="text-2xl" /> 
         </div>
       </div>
     </>
