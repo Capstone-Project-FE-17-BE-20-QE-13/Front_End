@@ -9,15 +9,15 @@ import { useAuthCookieCompany } from "../utils/contexts/newAuth_company";
 const Navbar = () => {
   // const { token, changeToken } = useAuth();
   const { js } = useAuthCookie();
-  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
+  const [cookies, setCookie, removeCookie] = useCookies<any>();
   const { tokenCompany, changeTokenCompany } = useAuthCookieCompany();
-  const { token } = useAuthCookie();
+  const { tokenCookie } = useAuthCookie();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // changeToken();
-    removeCookie("id", { path: "/" });
-    removeCookie("token", { path: "/" });
+    removeCookie("idCandidate", { path: "/" });
+    removeCookie("tokenCandidate", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -30,8 +30,8 @@ const Navbar = () => {
 
   const handleLogoutCompany = () => {
     changeTokenCompany();
-    removeCookie("id", { path: "/" });
-    removeCookie("token", { path: "/" });
+    removeCookie("idCompany", { path: "/" });
+    removeCookie("tokenCompany", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -50,8 +50,8 @@ const Navbar = () => {
             JobHuntz
           </Link>
         </div>
-        {token ? (
-          <div className="flex-none">
+        {tokenCookie ? (
+          <div className={`flex-none ${tokenCompany && "hidden"}`}>
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>
                 <Link to={"/lowongantersimpan"}>Disimpan</Link>

@@ -5,6 +5,7 @@ import { getDetailVacancy } from "../../utils/apis/vacancy/api";
 import { VacancyType } from "../../utils/apis/vacancy/types";
 import Swal from "sweetalert2";
 import { addToFavorite } from "../../utils/apis/favorite/api";
+import { addToApplication } from "../../utils/apis/applications/api";
 
 const Detail = () => {
   const { id } = useParams();
@@ -45,6 +46,28 @@ const Detail = () => {
     }
   };
 
+  const addApplicationHandle = async (id: number | any) => {
+    console.log(id);
+    try {
+      const result = await addToApplication(id);
+      console.log(result);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: `lowongan berhasil dilamar`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `gagal melamar lowongan`,
+      });
+    }
+  };
+
   return (
     <>
       <Layout>
@@ -72,7 +95,7 @@ const Detail = () => {
             </div>
           </div>
           <div className="flex gap-3 my-5">
-            <button className="w-[80px] p-1 rounded-md bg-secondary text-white">Lamar</button>
+            <button className="w-[80px] p-1 rounded-md bg-secondary text-white" onClick={() => addApplicationHandle(vacancyData.id)}>Lamar</button>
             <button className="w-[80px] p-1 rounded-md bg-main text-white" onClick={() => addToFavoriteHandle(vacancyData.id)}>
               Simpan
             </button>

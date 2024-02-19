@@ -26,8 +26,8 @@ const LoginCompany = () => {
       const result = await companyLogin(body);
       const token = result?.token;
       const id = result?.id;
-      setCookie("token", token, { path: "/" });
-      setCookie("id", id, { path: "/" });
+      setCookie("tokenCompany", token, { path: "/" });
+      setCookie("idCompany", id, { path: "/" });
       changeTokenCompany(result?.token);
       Swal.fire({
         position: "center",
@@ -47,7 +47,7 @@ const LoginCompany = () => {
   };
 
   useEffect(() => {
-    if (cookies.id) {
+    if (cookies.idCompany) {
       navigate(`/`);
     }
   }, []);

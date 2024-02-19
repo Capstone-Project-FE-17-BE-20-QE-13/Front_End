@@ -188,6 +188,7 @@ const ProfileUser = () => {
         setIsSuccess("");
         // window.location.reload();
       }, 3000);
+      fetchJs();
     } catch (error: any) {
       console.log(error as Error);
       setIsSuccess("no");

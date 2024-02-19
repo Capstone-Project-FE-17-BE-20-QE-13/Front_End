@@ -19,8 +19,8 @@ const InitialStateCookie = {
 const AuthContextCookie = createContext<ContextCookie>(InitialStateCookie);
 
 export const AuthCookieProvider = ({ children }: { children: ReactNode }) => {
-  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
-  const [tokenCookie, setTokenCookie] = useState(cookies.token ?? "");
+  const [cookies, setCookie, removeCookie] = useCookies<any>(["idCandidate", "tokenCandidate"]);
+  const [tokenCookie, setTokenCookie] = useState(cookies.tokenCandidate ?? "");
   const [js, setJs] = useState<Partial<JsType>>({});
 
   useEffect(() => {

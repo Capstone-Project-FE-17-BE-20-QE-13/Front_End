@@ -64,6 +64,7 @@ const ProfileCompany = () => {
         setIsSuccess("");
         // window.location.reload();
       }, 3000);
+      // fetchCompany();
     } catch (error: any) {
       console.log(error as Error);
       setIsSuccess("no");

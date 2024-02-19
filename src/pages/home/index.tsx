@@ -4,10 +4,11 @@ import Card from "../../components/Card";
 import { getAllVacancies } from "../../utils/apis/vacancy/api";
 import { AllVacancies } from "../../utils/apis/vacancy/types";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../utils/contexts/auth";
+// import { useAuth } from "../../utils/contexts/auth";
+import { useAuthCookie } from "../../utils/contexts/newAuth";
 
 const Home = () => {
-  const { token } = useAuth();
+  const { tokenCookie } = useAuthCookie();
   const [vacancies, setVacancies] = useState<AllVacancies[]>([]);
   const [noOfElement, setNoOfElement] = useState<number>(7);
   const data = vacancies.slice(0, noOfElement);
@@ -56,7 +57,7 @@ const Home = () => {
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
           {data &&
             data.map((item, index) =>
-              token != ""
+              tokenCookie != ""
                 ? item.status == "Dibuka" && (
                     <Link to={`/detail/${item.id}`}>
                       <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />

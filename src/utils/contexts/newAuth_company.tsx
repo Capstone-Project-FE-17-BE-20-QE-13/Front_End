@@ -19,8 +19,8 @@ const InitialState = {
 const AuthCompanyCookieContext = createContext<ContextCompanyCookie>(InitialState);
 
 export const AuthCompanyCookieProvider = ({ children }: { children: ReactNode }) => {
-  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
-  const [tokenCompany, setTokenCompany] = useState(cookies.token ?? "");
+  const [cookies, setCookie, removeCookie] = useCookies<any>(["idCompany", "tokenCompany"]);
+  const [tokenCompany, setTokenCompany] = useState(cookies.tokenCompany ?? "");
   const [company, setCompany] = useState<Partial<CompanyType>>({});
 
   useEffect(() => {

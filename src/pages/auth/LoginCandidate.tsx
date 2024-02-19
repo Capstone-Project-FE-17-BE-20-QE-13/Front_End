@@ -27,10 +27,11 @@ const LoginCandidate = () => {
       const result = await candidateLogin(body);
       const token = result?.token;
       const id = result?.id;
-      setCookie("token", token, { path: "/" });
-      setCookie("id", id, { path: "/" });
+      setCookie("tokenCandidate", token, { path: "/" });
+      setCookie("idCandidate", id, { path: "/" });
       // setAxiosConfig(token);
       changeToken(result?.token);
+      console.log(result);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -49,7 +50,7 @@ const LoginCandidate = () => {
   };
 
   useEffect(() => {
-    if (cookies.id) {
+    if (cookies.idCandidate) {
       navigate(`/`);
     }
   }, []);

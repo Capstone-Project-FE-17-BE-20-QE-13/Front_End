@@ -17,6 +17,7 @@ const LowonganTersimpan = () => {
     try {
       const result = await getFavorite();
       setFavoriteData(result.data);
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +53,7 @@ const LowonganTersimpan = () => {
     <>
       <Layout>
         <div className="mx-20 my-10">
-          <h1 className="text-2xl font-bold mb-5">Riwayat Lamaran</h1>
+          <h1 className="text-2xl font-bold mb-5">Lowongan Tersimpan</h1>
           {favoriteData &&
             favoriteData.map((value: any, index: any) => (
               <div key={index} className="w-full flex items-center my-6 p-[20px] border shadow-md rounded-md gap-5">
