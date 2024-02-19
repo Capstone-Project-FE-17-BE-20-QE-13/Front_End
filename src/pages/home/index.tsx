@@ -13,29 +13,51 @@ const Home = () => {
   const [noOfElement, setNoOfElement] = useState<number>(7);
   const data = vacancies.slice(0, noOfElement);
   useEffect(() => {
-    fetchAllVacancies();
+    fetchAllVacancies(searchTerm);
   }, []);
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const loadMoreHandle = () => {
     setNoOfElement(noOfElement + noOfElement);
   };
 
-  const fetchAllVacancies = async () => {
+  const fetchAllVacancies = async (itemName: string) => {
     try {
       const result = await getAllVacancies();
-      setVacancies(result.data);
+      const allVacancies = result.data;
+      const filterVacancy = allVacancies.filter((item) =>
+        item.name.toLowerCase().includes(itemName.toLowerCase())
+      );
+      setVacancies(filterVacancy);
     } catch (error: any) {
       (error as Error).message;
     }
+  };
+
+  const handleSearch = async () => {
+    await fetchAllVacancies(searchTerm);
   };
 
   return (
     <>
       <Layout>
         <div className="my-10">
-          <form className="flex justify-center gap-5">
-            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Cari Lowongan" />
-            <select name="size" id="size" className="p-2 rounded-xl drop-shadow-md outline-none">
+          <div className="flex justify-center gap-5">
+            <input
+              type="text"
+              className="p-2 rounded-xl drop-shadow-md outline-none"
+              placeholder="Cari Lowongan"
+              value={searchTerm}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchTerm(e.target.value)
+              }
+            />
+            <select
+              name="size"
+              id="size"
+              className="p-2 rounded-xl drop-shadow-md outline-none"
+            >
               <option value="" disabled selected>
                 Bidang Pekerjaan
               </option>
@@ -49,9 +71,18 @@ const Home = () => {
               <option value="manajemen">Manajemen</option>
               <option value="perkantoran">Administrasi Perkantoran</option>
             </select>
-            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Lokasi" />
-            <input type="submit" className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none" value="Cari" />
-          </form>
+            <input
+              type="text"
+              className="p-2 rounded-xl drop-shadow-md outline-none"
+              placeholder="Lokasi"
+            />
+            <input
+              type="submit"
+              className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none"
+              value="cari"
+              onClick={handleSearch}
+            />
+          </div>
         </div>
         <div className="mx-20">
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
@@ -60,16 +91,31 @@ const Home = () => {
               tokenCookie != ""
                 ? item.status == "Dibuka" && (
                     <Link to={`/detail/${item.id}`}>
-                      <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
+                      <Card
+                        position={item.name}
+                        company_name={item.job_type}
+                        address="Jakarta"
+                        salary_range={item.salary_range}
+                        key={index}
+                      />
                     </Link>
                   )
                 : item.status == "Dibuka" && (
                     <Link to={`/logincandidate`}>
-                      <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
+                      <Card
+                        position={item.name}
+                        company_name={item.job_type}
+                        address="Jakarta"
+                        salary_range={item.salary_range}
+                        key={index}
+                      />
                     </Link>
                   )
             )}
-          <div className="w-full p-3 text-center shadow-md bg-primary rounded-md my-5 cursor-pointer active:bg-blue-600" onClick={loadMoreHandle}>
+          <div
+            className="w-full p-3 text-center shadow-md bg-primary rounded-md my-5 cursor-pointer active:bg-blue-600"
+            onClick={loadMoreHandle}
+          >
             <h1 className="font-bold text-white">Load More</h1>
           </div>
         </div>
