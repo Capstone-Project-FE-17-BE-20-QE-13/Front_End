@@ -6,13 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { companyLogin } from "../../utils/apis/auth/api";
 import Swal from "sweetalert2";
 // import { useAuthCompany } from "../../utils/contexts/auth_company";
-import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
+// import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
+import { useAuthCookie } from "../../utils/contexts/newAuth";
 
 const LoginCompany = () => {
   // const {changeTokenCompany} = useAuthCompany();
-  const { changeTokenCompany } = useAuthCookieCompany();
+  // const { changeTokenCompany } = useAuthCookieCompany();
+  const { changeToken } = useAuthCookie();
   const [cookies, setCookie] = useCookies();
   const navigate = useNavigate();
   const {
@@ -26,9 +28,11 @@ const LoginCompany = () => {
       const result = await companyLogin(body);
       const token = result?.token;
       const id = result?.id;
-      setCookie("tokenCompany", token, { path: "/" });
-      setCookie("idCompany", id, { path: "/" });
-      changeTokenCompany(result?.token);
+      const role = result?.roles;
+      setCookie("token", token, { path: "/" });
+      setCookie("id", id, { path: "/" });
+      setCookie("role", role, { path: "/" });
+      changeToken(result?.token);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -47,8 +51,8 @@ const LoginCompany = () => {
   };
 
   useEffect(() => {
-    if (cookies.idCompany) {
-      navigate(`/`);
+    if (cookies.id) {
+      navigate(`/profilcompany`);
     }
   }, []);
 

@@ -1,6 +1,5 @@
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
-// import { useAuthCompany } from "../utils/contexts/auth_company";
 import { useCookies } from "react-cookie";
 import { useAuthCookie } from "../utils/contexts/newAuth";
 import company from "../assets/company.jpg";
@@ -9,15 +8,16 @@ import { useAuthCookieCompany } from "../utils/contexts/newAuth_company";
 const Navbar = () => {
   // const { token, changeToken } = useAuth();
   const { js } = useAuthCookie();
-  const [cookies, setCookie, removeCookie] = useCookies<any>();
-  const { tokenCompany, changeTokenCompany } = useAuthCookieCompany();
-  const { tokenCookie } = useAuthCookie();
+  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token", "role"]);
+  // const { tokenCompany, changeTokenCompany } = useAuthCookieCompany();
+  // const { tokenCookie } = useAuthCookie();
   const navigate = useNavigate();
+  // console.log(cookies.role);
 
   const handleLogout = () => {
-    // changeToken();
-    removeCookie("idCandidate", { path: "/" });
-    removeCookie("tokenCandidate", { path: "/" });
+    removeCookie("id", { path: "/" });
+    removeCookie("token", { path: "/" });
+    removeCookie("roles", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -29,9 +29,9 @@ const Navbar = () => {
   };
 
   const handleLogoutCompany = () => {
-    changeTokenCompany();
-    removeCookie("idCompany", { path: "/" });
-    removeCookie("tokenCompany", { path: "/" });
+    removeCookie("id", { path: "/" });
+    removeCookie("token", { path: "/" });
+    removeCookie("roles", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -50,8 +50,8 @@ const Navbar = () => {
             JobHuntz
           </Link>
         </div>
-        {tokenCookie ? (
-          <div className={`flex-none ${tokenCompany && "hidden"}`}>
+        {cookies.role == "jobseker" ? (
+          <div className={`flex-none ${cookies.role == "company" && "hidden"}`}>
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>
                 <Link to={"/lowongantersimpan"}>Disimpan</Link>
@@ -82,18 +82,21 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <div className={`flex-none ${tokenCompany && "hidden"}`}>
+          <div className={`flex-none ${cookies.role == "company" && "hidden"}`}>
             <Link to={"/role"} className="btn bg-[#FE7A36] border-none text-white">
               Daftar
             </Link>
           </div>
         )}
 
-        {tokenCompany && (
+        {cookies.role == "company" && (
           <div className="flex-none">
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>
                 <Link to={"/chat"}>Pesan</Link>
+              </li>
+              <li>
+                <Link to={"/daftarlowongan"}>Daftar Lowongan</Link>
               </li>
             </ul>
             <div className="dropdown dropdown-end">
@@ -108,16 +111,7 @@ const Navbar = () => {
                     Profile
                   </Link>
                 </li>
-                <li>
-                  <Link to={"/daftarlowongan"} className="justify-between">
-                    Daftar Lowongan
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/daftarpelamar"} className="justify-between">
-                    Daftar Pelamar
-                  </Link>
-                </li>
+
                 <li onClick={handleLogoutCompany}>
                   <a>Logout</a>
                 </li>

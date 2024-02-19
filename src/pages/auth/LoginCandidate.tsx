@@ -7,7 +7,6 @@ import { candidateLogin } from "../../utils/apis/auth/api";
 import Swal from "sweetalert2";
 // import { useAuth } from "../../utils/contexts/auth";
 import { useCookies } from "react-cookie";
-// import { setAxiosConfig } from "../../utils/apis/axiosWithConfig";
 import { useEffect } from "react";
 import { useAuthCookie } from "../../utils/contexts/newAuth";
 
@@ -27,11 +26,11 @@ const LoginCandidate = () => {
       const result = await candidateLogin(body);
       const token = result?.token;
       const id = result?.id;
-      setCookie("tokenCandidate", token, { path: "/" });
-      setCookie("idCandidate", id, { path: "/" });
-      // setAxiosConfig(token);
+      const role = result?.roles;
+      setCookie("token", token, { path: "/" });
+      setCookie("id", id, { path: "/" });
+      setCookie("role", role, { path: "/" });
       changeToken(result?.token);
-      console.log(result);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -50,7 +49,7 @@ const LoginCandidate = () => {
   };
 
   useEffect(() => {
-    if (cookies.idCandidate) {
+    if (cookies.id) {
       navigate(`/`);
     }
   }, []);

@@ -48,6 +48,12 @@ export const AuthCompanyCookieProvider = ({ children }: { children: ReactNode })
   const changeTokenCompany = (token?: string) => {
     const newToken = token ?? "";
     setTokenCompany(newToken);
+    if (token) {
+      setCookie("tokenCompany", newToken, { path: "/" });
+    } else {
+      removeCookie("tokenCompany", { path: "/" });
+      setCompany({});
+    }
   };
 
   const AuthCompanyContextValue = {

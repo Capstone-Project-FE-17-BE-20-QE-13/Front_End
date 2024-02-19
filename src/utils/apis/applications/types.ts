@@ -8,6 +8,11 @@ export const applicationSchema = z.object({
   company_name: z.string(),
 });
 
+export const changeStatusSchema = z.object({
+  id: z.number(),
+  stat_app: z.string(),
+});
+
 export interface Application {
   id: number;
   jobseeker_id: number;
@@ -26,9 +31,11 @@ export interface HistoryApplication {
 }
 
 export interface ListApplication {
-  applicant_name: string,
-position: string,
-status: string
+  id: number;
+  jobseeker_id: number;
+  company_name: string;
+  position: string;
+  stat_app: string;
 }
 
 export interface AddApplication {
@@ -38,3 +45,4 @@ export interface AddApplication {
 }
 
 export type ApplicationType = z.infer<typeof applicationSchema>;
+export type ChangeType = z.infer<typeof changeStatusSchema>;

@@ -29,7 +29,7 @@ function App() {
         <Route path="/profilecompany" element={<ProfileCompany />} />
         <Route path="/profileuser" element={<ProfileUser />} />
         <Route path="/daftarlowongan" element={<DaftarLowongan />} />
-        <Route path="/daftarpelamar" element={<DaftarPelamar />} />
+        <Route path="/daftarpelamar/:id" element={<DaftarPelamar />} />
         <Route path="/riwayatlamaran" element={<RiwayatLamaran />} />
         <Route path="/lowongantersimpan" element={<LowonganTersimpan />} />
       </Routes>

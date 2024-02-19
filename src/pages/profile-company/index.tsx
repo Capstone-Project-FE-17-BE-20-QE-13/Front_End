@@ -7,10 +7,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CompanyType, companySchema } from "../../utils/apis/company/types";
 import { useEffect, useState } from "react";
 import { updateCompany } from "../../utils/apis/company/api";
-import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
+// import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
+import { useAuthCookie } from "../../utils/contexts/newAuth";
 
 const ProfileCompany = () => {
-  const { company } = useAuthCookieCompany();
+  // const { company } = useAuthCookieCompany();
+  const { company } = useAuthCookie();
   const [isSuccess, setIsSuccess] = useState<string>("");
   const { register, handleSubmit, setValue } = useForm<CompanyType>({
     resolver: zodResolver(companySchema),

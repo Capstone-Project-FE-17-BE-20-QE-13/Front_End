@@ -1,13 +1,14 @@
 import { FC } from "react";
 import { IoBookmark } from "react-icons/io5";
 import { VacanciesProps } from "../utils/apis/vacancy/types";
+import jobVacancy from "../assets/job-vacancy.jpg";
 
 const Card: FC<VacanciesProps> = ({ position, company_name, address, salary_range }) => {
   return (
     <>
       <div className="w-full flex my-6 p-[20px] border shadow-md rounded-md gap-5">
         <div className="w-[150px] h-[150px]">
-          <img src="https://source.unsplash.com/random?job" className="h-full object-cover" alt="" />
+          <img src={jobVacancy} className="h-full object-cover" alt="" />
         </div>
         <div className="flex flex-col gap-5 grow">
           <div>

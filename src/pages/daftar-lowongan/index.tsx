@@ -9,6 +9,7 @@ import { addVacancy, editVacancy, getDetailVacancy, getMyVacancies } from "../..
 import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 import { useAuthCompany } from "../../utils/contexts/auth_company";
+import { Link } from "react-router-dom";
 
 const DaftarLowongan = () => {
   const { company } = useAuthCompany();
@@ -153,14 +154,14 @@ const DaftarLowongan = () => {
           {vacancies &&
             vacancies.map((value: any, index: any) => (
               <div key={index} className="w-full mb-5">
-                <div className="flex justify-between p-5 border rounded-md">
+                <div className="flex justify-between items-center p-5 border rounded-md">
                   <div>
                     <h1 className="text-xl font-bold">{value.name}</h1>
                     <div className="flex gap-5">
                       <p>{value.status}</p>
                     </div>
                   </div>
-                  <div className="flex gap-3">
+                  <div className="flex items-center gap-3">
                     {value.status == "Dibuka" ? (
                       <label onClick={() => getDetailVacancies(value.id)} htmlFor="my_modal_8" className="btn bg-transparent p-0 border-none shadow-none hover:bg-transparent">
                         <IoIosCloseCircle className="text-3xl" />
@@ -170,6 +171,9 @@ const DaftarLowongan = () => {
                         <IoIosOpen className="text-3xl" />
                       </label>
                     )}
+                    <Link to={`/daftarpelamar/${value.id}`}>
+                      <div className="badge badge-neutral">daftar pelamar</div>
+                    </Link>
                     <button onClick={() => handleDeleteVacancy(value.id)}>
                       <FaTrashAlt className="text-2xl text-red-500" />
                     </button>

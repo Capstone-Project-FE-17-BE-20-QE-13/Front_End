@@ -2,25 +2,29 @@ import { ReactNode, createContext, useContext, useEffect, useState } from "react
 import axiosWithConfig, { setAxiosConfig } from "../apis/axiosWithConfig";
 import { JsType } from "../apis/jobseekers/types";
 import { getJs } from "../apis/jobseekers/api";
+import { AuthCompanyCookieProvider } from "./newAuth_company";
+import { AuthCookieProvider } from "./newAuth";
+import { useCookies } from "react-cookie";
 // import { useCookies } from "react-cookie";
 
 interface Context {
   token: string;
   js: Partial<JsType>;
   changeToken: (token?: string) => void;
-  fetchJs: () => void
+  fetchJs: () => void;
 }
 
 const InitialState = {
   token: "",
   js: {},
   changeToken: () => {},
-  fetchJs: () => {}
+  fetchJs: () => {},
 };
 
 const AuthContext = createContext<Context>(InitialState);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [cookies, setCookie, removeCookie] = useCookies<any>(["idCandidate", "tokenCandidate", "idCompany", "tokenCompany"]);
   const [token, setToken] = useState(localStorage.getItem("token") ?? "");
   const [js, setJs] = useState<Partial<JsType>>({});
   // const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
@@ -63,10 +67,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     token,
     js,
     changeToken,
-    fetchJs
+    fetchJs,
   };
 
-  return <AuthContext.Provider value={AuthContextValue}>{children}</AuthContext.Provider>;
+  return cookies.tokenCandidate ? <AuthCookieProvider>{children}</AuthCookieProvider> : <AuthCompanyCookieProvider>{children}</AuthCompanyCookieProvider>;
+
+  // return <AuthContext.Provider value={AuthContextValue}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

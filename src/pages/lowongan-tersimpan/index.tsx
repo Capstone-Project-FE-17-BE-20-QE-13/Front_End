@@ -5,6 +5,7 @@ import { FavoriteType } from "../../utils/apis/favorite/types";
 import { getFavorite } from "../../utils/apis/favorite/api";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 import Swal from "sweetalert2";
+import jobVacancy from "../../assets/job-vacancy.jpg";
 
 const LowonganTersimpan = () => {
   const [favoriteData, setFavoriteData] = useState<FavoriteType[]>();
@@ -17,7 +18,6 @@ const LowonganTersimpan = () => {
     try {
       const result = await getFavorite();
       setFavoriteData(result.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +58,7 @@ const LowonganTersimpan = () => {
             favoriteData.map((value: any, index: any) => (
               <div key={index} className="w-full flex items-center my-6 p-[20px] border shadow-md rounded-md gap-5">
                 <div className="w-[100px] h-[100px]">
-                  <img src="https://source.unsplash.com/random?job" className="h-full object-cover" alt="" />
+                  <img src={jobVacancy} className="h-full object-cover" alt="" />
                 </div>
                 <div className="flex flex-col gap-5 grow">
                   <div>
