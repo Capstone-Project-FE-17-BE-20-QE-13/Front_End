@@ -1,15 +1,16 @@
 import Layout from "../../components/Layout";
 import { MdVerified } from "react-icons/md";
 import { RiImageAddFill } from "react-icons/ri";
-import { useAuthCompany } from "../../utils/contexts/auth_company";
+// import { useAuthCompany } from "../../utils/contexts/auth_company";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CompanyType, companySchema } from "../../utils/apis/company/types";
 import { useEffect, useState } from "react";
 import { updateCompany } from "../../utils/apis/company/api";
+import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
 
 const ProfileCompany = () => {
-  const { company } = useAuthCompany();
+  const { company } = useAuthCookieCompany();
   const [isSuccess, setIsSuccess] = useState<string>("");
   const { register, handleSubmit, setValue } = useForm<CompanyType>({
     resolver: zodResolver(companySchema),

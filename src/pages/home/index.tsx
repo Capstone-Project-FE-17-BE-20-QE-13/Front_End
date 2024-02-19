@@ -9,9 +9,15 @@ import { useAuth } from "../../utils/contexts/auth";
 const Home = () => {
   const { token } = useAuth();
   const [vacancies, setVacancies] = useState<AllVacancies[]>([]);
+  const [noOfElement, setNoOfElement] = useState<number>(7);
+  const data = vacancies.slice(0, noOfElement);
   useEffect(() => {
     fetchAllVacancies();
   }, []);
+
+  const loadMoreHandle = () => {
+    setNoOfElement(noOfElement + noOfElement);
+  };
 
   const fetchAllVacancies = async () => {
     try {
@@ -48,8 +54,8 @@ const Home = () => {
         </div>
         <div className="mx-20">
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
-          {vacancies &&
-            vacancies.map((item, index) =>
+          {data &&
+            data.map((item, index) =>
               token != ""
                 ? item.status == "Dibuka" && (
                     <Link to={`/detail/${item.id}`}>
@@ -62,6 +68,9 @@ const Home = () => {
                     </Link>
                   )
             )}
+          <div className="w-full p-3 text-center shadow-md bg-primary rounded-md my-5 cursor-pointer active:bg-blue-600" onClick={loadMoreHandle}>
+            <h1 className="font-bold text-white">Load More</h1>
+          </div>
         </div>
       </Layout>
     </>

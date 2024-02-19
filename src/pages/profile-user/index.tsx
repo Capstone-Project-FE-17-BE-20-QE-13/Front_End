@@ -575,7 +575,9 @@ const ProfileUser = () => {
                 <h1>Publikasi: {value.pub_date}</h1>
                 <h1>Kadaluarsa: {value.exp_date}</h1>
                 <h1 className="text-primary hover:text-secondary active:text-orange-500">
-                  <a href={`${value.license}`}>Berkas Lisensi</a>
+                  <a href={`${value.license}`} target="_blank">
+                    Berkas Lisensi
+                  </a>
                 </h1>
                 <button onClick={() => handleDeleteLicense(value.id)}>
                   <IoTrash className="text-2xl text-red-500" />
@@ -609,7 +611,9 @@ const ProfileUser = () => {
           {cv.cv_file != undefined ? (
             <div className="flex justify-around p-2 w-full border rounded-sm my-5">
               <h1 className="text-primary hover:text-secondary active:text-orange-500">
-                <a href={cv.cv_file}>File CV</a>
+                <a href={cv.cv_file} target="_blank">
+                  File CV
+                </a>
               </h1>
               <h1></h1>
               <h1></h1>
