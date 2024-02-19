@@ -1,15 +1,20 @@
-import { useAuth } from "../utils/contexts/auth";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthCompany } from "../utils/contexts/auth_company";
+import { useCookies } from "react-cookie";
+import { useAuthCookie } from "../utils/contexts/newAuth";
 
 const Navbar = () => {
-  const { token, changeToken } = useAuth();
+  // const { token, changeToken } = useAuth();
+  const { js } = useAuthCookie();
+  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
   const { tokenCompany, changeTokenCompany } = useAuthCompany();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    changeToken();
+    // changeToken();
+    removeCookie("id", { path: "/" });
+    removeCookie("token", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -40,7 +45,7 @@ const Navbar = () => {
             JobHuntz
           </Link>
         </div>
-        {token ? (
+        {cookies.id ? (
           <div className="flex-none">
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>
@@ -56,7 +61,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  <img alt="Tailwind CSS Navbar component" src={js.banners} />
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">

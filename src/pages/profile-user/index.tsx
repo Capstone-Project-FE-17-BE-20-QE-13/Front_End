@@ -2,21 +2,29 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { FaPlus } from "react-icons/fa";
 import { IoTrash } from "react-icons/io5";
-import { useAuth } from "../../utils/contexts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CareersType, EducationType, JobseekerType, JsType, SkillType, careersSchema, educationSchema, jobseekerSchema, skillSchema } from "../../utils/apis/jobseekers/types";
+import { CVType, CareersType, EducationType, JobseekerType, JsType, LicenseType, SkillType, careersSchema, cvSchema, educationSchema, jobseekerSchema, licenseSchema, skillSchema } from "../../utils/apis/jobseekers/types";
 import { useForm } from "react-hook-form";
-import { getCareers, getEducation, getSkill, postCareer, postEducation, postSkill, updateUser } from "../../utils/apis/jobseekers/api";
+import { getCV, getCareers, getEducation, getLicense, getSkill, postCV, postCareer, postEducation, postLicense, postSkill, updateUser } from "../../utils/apis/jobseekers/api";
 import { IoMdDocument } from "react-icons/io";
 import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
+import { RiImageAddFill } from "react-icons/ri";
+import { useAuthCookie } from "../../utils/contexts/newAuth";
 
 const ProfileUser = () => {
-  const { js } = useAuth();
+  const { js } = useAuthCookie();
+  // console.log(js);
   const [isSuccess, setIsSuccess] = useState<string>("");
   const [careers, setCareers] = useState<CareersType[]>();
   const [education, setEducation] = useState<EducationType[]>();
   const [skill, setSkill] = useState<SkillType[]>();
+  const [license, setLicense] = useState<LicenseType[]>();
+  const [cv, setCV] = useState<Partial<CVType>>({});
+  const [cvError, setCVError] = useState<any>();
+
+  // console.log(cv);
+
   const {
     register,
     handleSubmit,
@@ -25,8 +33,10 @@ const ProfileUser = () => {
   } = useForm<JsType>({
     resolver: zodResolver(jobseekerSchema),
     defaultValues: {
+      banners: "",
       full_name: "",
       username: "",
+      password: "",
       email: "",
       address: "",
       phone: "",
@@ -82,6 +92,35 @@ const ProfileUser = () => {
     },
   });
 
+  const {
+    register: licenseRegister,
+    handleSubmit: licenseSubmit,
+    setValue: licenseSetValue,
+  } = useForm<LicenseType>({
+    resolver: zodResolver(licenseSchema),
+    defaultValues: {
+      id: 0,
+      jobseeker_id: 0,
+      license_name: "",
+      pub_date: "",
+      exp_date: "",
+      license: "",
+    },
+  });
+
+  const {
+    register: cvRegister,
+    handleSubmit: cvSubmit,
+    setValue: cvSetValue,
+  } = useForm<CVType>({
+    resolver: zodResolver(cvSchema),
+    defaultValues: {
+      id: 0,
+      jobseeker_id: 0,
+      cv_file: "",
+    },
+  });
+
   useEffect(() => {
     setValue("full_name", js?.full_name as string);
     setValue("username", js?.username as string);
@@ -94,6 +133,8 @@ const ProfileUser = () => {
     careerSetValue("jobseeker_id", js?.id as number);
     educationSetValue("jobseeker_id", js?.id as number);
     skillSetValue("jobseeker_id", js?.id as number);
+    licenseSetValue("jobseeker_id", js?.id as number);
+    cvSetValue("jobseeker_id", js?.id as number);
   }, [js]);
 
   const handleUpdateProfile = async (body: JobseekerType) => {
@@ -112,6 +153,10 @@ const ProfileUser = () => {
 
     if (data.full_name == js.full_name) {
       delete data.full_name;
+    }
+
+    if (data.banners == js.banners || data.banners == "") {
+      delete data.banners;
     }
 
     if (data.address == js.address) {
@@ -290,11 +335,104 @@ const ProfileUser = () => {
     });
   };
 
+  const handleLicenseAdd = async (body: LicenseType) => {
+    console.log(body);
+    try {
+      const result = await postLicense(body);
+      console.log(result);
+      setIsSuccess("yes");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+      reset();
+    } catch (error: any) {
+      console.log(error as Error);
+      setIsSuccess("no");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+    }
+  };
+
+  const handleDeleteLicense = (id: number) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosWithConfig
+          .delete(`license/${id}`)
+          .then((res) => {
+            console.log(res);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Data has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => console.log(err.response));
+      }
+    });
+  };
+
+  const handleCVAdd = async (body: CVType) => {
+    console.log(body);
+    try {
+      const result = await postCV(body);
+      console.log(result);
+      setIsSuccess("yes");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+      reset();
+    } catch (error: any) {
+      console.log(error as Error);
+      setIsSuccess("no");
+      setTimeout(() => {
+        setIsSuccess("");
+      }, 3000);
+    }
+  };
+
+  const handleDeleteCV = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosWithConfig
+          .delete(`cv`)
+          .then((res) => {
+            console.log(res);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Data has been deleted.",
+              icon: "success",
+            });
+          })
+          .catch((err) => console.log(err.response));
+      }
+    });
+  };
+
   useEffect(() => {
     getDataCareers();
     getDataEducation();
     getDataSkill();
-  }, [careers, education, skill]);
+    getDataLicense();
+    getDataCV();
+  }, [careers, education, skill, license, cv]);
 
   const getDataCareers = async () => {
     try {
@@ -323,6 +461,25 @@ const ProfileUser = () => {
     }
   };
 
+  const getDataLicense = async () => {
+    try {
+      const result = await getLicense();
+      setLicense(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDataCV = async () => {
+    try {
+      const result = await getCV();
+      setCV(result.data);
+      // console.log(result.data);
+    } catch (error) {
+      setCVError(error);
+    }
+  };
+
   return (
     <>
       <Layout>
@@ -330,7 +487,7 @@ const ProfileUser = () => {
           <div className="flex gap-8 mb-10">
             <div className="avatar">
               <div className="w-56 rounded-full">
-                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <img src={js.banners} />
               </div>
             </div>
             <div className="mt-10">
@@ -380,8 +537,8 @@ const ProfileUser = () => {
               <div key={index} className="flex justify-around p-2 w-full border rounded-sm my-5">
                 <h1>{value.position}</h1>
                 <h1>{value.company_name}</h1>
-                <h1>{value.date_start}</h1>
-                <h1>{value.date_end}</h1>
+                <h1>Mulai: {value.date_start}</h1>
+                <h1>Berakhir: {value.date_end}</h1>
                 <button onClick={() => handleDeleteCareer(value.id)}>
                   <IoTrash className="text-2xl text-red-500" />
                 </button>
@@ -398,7 +555,7 @@ const ProfileUser = () => {
               <div key={index} className="flex justify-around p-2 w-full border rounded-sm my-5">
                 <h1>{value.ed_level}</h1>
                 <h1>{value.major}</h1>
-                <h1>{value.grad_date}</h1>
+                <h1>Lulus: {value.grad_date}</h1>
                 <h1></h1>
                 <button onClick={() => handleDeleteEducation(value.id)}>
                   <IoTrash className="text-2xl text-red-500" />
@@ -411,15 +568,20 @@ const ProfileUser = () => {
               <FaPlus className="text-2xl text-success" />
             </label>
           </div>
-          <div className="flex justify-around p-2 w-full border rounded-sm my-5">
-            <h1>Nama Lisensi</h1>
-            <h1>Tanggal Terbit</h1>
-            <h1>Tanggal Kadaluarsa</h1>
-            <h1></h1>
-            <button>
-              <IoTrash className="text-2xl text-red-500" />
-            </button>
-          </div>
+          {license &&
+            license.map((value: any, index: any) => (
+              <div key={index} className="flex justify-around p-2 w-full border rounded-sm my-5">
+                <h1>{value.license_name}</h1>
+                <h1>Publikasi: {value.pub_date}</h1>
+                <h1>Kadaluarsa: {value.exp_date}</h1>
+                <h1 className="text-primary hover:text-secondary active:text-orange-500">
+                  <a href={`${value.license}`}>Berkas Lisensi</a>
+                </h1>
+                <button onClick={() => handleDeleteLicense(value.id)}>
+                  <IoTrash className="text-2xl text-red-500" />
+                </button>
+              </div>
+            ))}
           <div className="flex gap-5 items-center mb-5">
             <h1 className="text-2xl font-bold">Keahlian</h1>
             <label htmlFor="my_modal_11" className="btn bg-transparent">
@@ -444,15 +606,21 @@ const ProfileUser = () => {
               <FaPlus className="text-2xl text-success" />
             </label>
           </div>
-          <div className="flex justify-around p-2 w-full border rounded-sm my-5">
-            <h1>CV</h1>
-            <h1></h1>
-            <h1></h1>
-            <h1></h1>
-            <button>
-              <IoTrash className="text-2xl text-red-500" />
-            </button>
-          </div>
+          {cv.cv_file != undefined ? (
+            <div className="flex justify-around p-2 w-full border rounded-sm my-5">
+              <h1 className="text-primary hover:text-secondary active:text-orange-500">
+                <a href={cv.cv_file}>File CV</a>
+              </h1>
+              <h1></h1>
+              <h1></h1>
+              <h1></h1>
+              <button onClick={() => handleDeleteCV()}>
+                <IoTrash className="text-2xl text-red-500" />
+              </button>
+            </div>
+          ) : (
+            <div>cv is empty</div>
+          )}
         </div>
 
         <input type="checkbox" id="my_modal_7" className="modal-toggle" />
@@ -460,6 +628,11 @@ const ProfileUser = () => {
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Edit Data Company</h3>
             <form method="dialog" className="flex flex-col gap-5" onSubmit={handleSubmit(handleUpdateProfile)}>
+              <label htmlFor="banners" className="w-full h-[100px] flex flex-col justify-center items-center shadow-md rounded-md cursor-pointer">
+                Add Photo Profile
+                <RiImageAddFill className="text-xl" />
+              </label>
+              <input type="file" id="banners" {...register("banners")} className="hidden" />
               <input type="text" {...register("full_name")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Lengkap" />
               <input type="text" {...register("username")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Username" />
               <input type="email" {...register("email")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Email" />
@@ -605,17 +778,45 @@ const ProfileUser = () => {
         <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Lisensi & Sertifikasi</h3>
-            <form method="dialog" className="flex flex-col gap-5">
-              <input type="text" className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Lisensi" />
+            <form method="dialog" className="flex flex-col gap-5" onSubmit={licenseSubmit(handleLicenseAdd)}>
+              <input type="text" {...licenseRegister("license_name")} className="p-2 rounded-md drop-shadow-md outline-none" placeholder="Nama Lisensi" />
               <label htmlFor="terbit">
                 Tanggal Terbit
-                <input type="date" id="terbit" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
+                <input type="date" {...licenseRegister("pub_date")} id="terbit" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
               </label>
               <label htmlFor="kadaluarsa">
                 Tanggal Kadaluarsa
-                <input type="date" id="kadaluarsa" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
+                <input type="date" {...licenseRegister("exp_date")} id="kadaluarsa" className="p-2 ms-5 rounded-md drop-shadow-md outline-none" />
               </label>
-              <input type="submit" value="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
+              <label htmlFor="license" className="w-full h-[100px] flex flex-col justify-center items-center shadow-md rounded-md cursor-pointer">
+                Add License
+                <IoMdDocument className="text-xl" />
+              </label>
+              <input type="file" id="license" {...licenseRegister("license")} className="hidden" />
+              {(() => {
+                if (isSuccess == "yes") {
+                  return (
+                    <div role="alert" className="alert alert-success my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>tambah lisensi berhasil.</span>
+                    </div>
+                  );
+                } else if (isSuccess == "no") {
+                  return (
+                    <div role="alert" className="alert alert-error my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>Error! tambah lisensi gagal.</span>
+                    </div>
+                  );
+                } else {
+                  return <div></div>;
+                }
+              })()}
+              <input type="submit" value="Tambah" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
           <label className="modal-backdrop" htmlFor="my_modal_10">
@@ -665,13 +866,36 @@ const ProfileUser = () => {
         <div className="modal" role="dialog">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-center">Curiculum Vitae</h3>
-            <form className="flex flex-col gap-5">
+            <form className="flex flex-col gap-5" onSubmit={cvSubmit(handleCVAdd)}>
               <label htmlFor="cv" className="w-full h-[100px] flex flex-col justify-center items-center shadow-md rounded-md cursor-pointer">
                 Add CV
                 <IoMdDocument className="text-xl" />
               </label>
-              <input type="file" id="cv" className="hidden" />
-              <input type="submit" placeholder="Tambah" className="w-28 bg-secondary p-3 rounded-md text-white self-end" />
+              <input type="file" {...cvRegister("cv_file")} id="cv" className="hidden" />
+              {(() => {
+                if (isSuccess == "yes") {
+                  return (
+                    <div role="alert" className="alert alert-success my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>tambah cv berhasil.</span>
+                    </div>
+                  );
+                } else if (isSuccess == "no") {
+                  return (
+                    <div role="alert" className="alert alert-error my-5">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>Error! tambah cv gagal.</span>
+                    </div>
+                  );
+                } else {
+                  return <div></div>;
+                }
+              })()}
+              <input type="submit" value="Tambah" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
           <label className="modal-backdrop" htmlFor="my_modal_12">

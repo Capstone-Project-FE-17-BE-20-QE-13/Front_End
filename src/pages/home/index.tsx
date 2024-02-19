@@ -50,15 +50,17 @@ const Home = () => {
           <h1 className="text-2xl font-bold">Lowongan Terkini</h1>
           {vacancies &&
             vacancies.map((item, index) =>
-              token != "" ? (
-                <Link to={`/detail/${item.id}`}>
-                  <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
-                </Link>
-              ) : (
-                <Link to={`/logincandidate`}>
-                  <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
-                </Link>
-              )
+              token != ""
+                ? item.status == "Dibuka" && (
+                    <Link to={`/detail/${item.id}`}>
+                      <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
+                    </Link>
+                  )
+                : item.status == "Dibuka" && (
+                    <Link to={`/logincandidate`}>
+                      <Card position={item.name} company_name={item.job_type} address="Jakarta" salary_range={item.salary_range} key={index} />
+                    </Link>
+                  )
             )}
         </div>
       </Layout>

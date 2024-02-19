@@ -20,6 +20,7 @@ export const companyRegisterSchema = z.object({
 export const loginSchema = z.object({
   email: z.string().min(8, { message: "email is required" }).email("Not a valid email"),
   password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+  id: z.number().optional(),
 });
 
 export type UserRegisterType = z.infer<typeof userRegisterSchema>;

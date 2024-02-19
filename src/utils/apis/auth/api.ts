@@ -22,7 +22,7 @@ export const companyRegister = async (body: CompanyRegisterType) => {
 export const candidateLogin = async (body: LoginType) => {
   try {
     const response = await axiosWithConfig.post("login/jobseekers", body);
-    return response.data.data as { email: string; token: string };
+    return response.data.data as { email: string; token: string; id: number };
   } catch (error: any) {
     throw new Error(error.response.data.message);
   }
