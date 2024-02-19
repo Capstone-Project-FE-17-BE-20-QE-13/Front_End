@@ -3,8 +3,8 @@ import Layout from "../../components/Layout";
 import { IoTrash } from "react-icons/io5";
 import { FavoriteType } from "../../utils/apis/favorite/types";
 import { getFavorite } from "../../utils/apis/favorite/api";
-import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
+import Swal from "sweetalert2";
 
 const LowonganTersimpan = () => {
   const [favoriteData, setFavoriteData] = useState<FavoriteType[]>();
@@ -17,13 +17,13 @@ const LowonganTersimpan = () => {
     try {
       const result = await getFavorite();
       setFavoriteData(result.data);
-      console.log(result.data)
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDeleteFavorit = (id: number) => {
+  const deleteHandle = (id: number) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -38,7 +38,6 @@ const LowonganTersimpan = () => {
           .delete(`favorit/${id}`)
           .then((res) => {
             console.log(res);
-            getData()
             Swal.fire({
               title: "Deleted!",
               text: "Data has been deleted.",
@@ -67,7 +66,7 @@ const LowonganTersimpan = () => {
                     <p>{value.company_name}</p>
                   </div>
                 </div>
-                <button onClick={() => handleDeleteFavorit(value.id)}>
+                <button onClick={() => deleteHandle(value.id)}>
                   <IoTrash className="text-2xl text-red-500" />
                 </button>
               </div>

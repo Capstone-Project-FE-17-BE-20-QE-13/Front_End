@@ -5,10 +5,15 @@ import { LoginType, loginSchema } from "../../utils/apis/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { companyLogin } from "../../utils/apis/auth/api";
 import Swal from "sweetalert2";
-import { useAuthCompany } from "../../utils/contexts/auth_company";
+// import { useAuthCompany } from "../../utils/contexts/auth_company";
+import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 const LoginCompany = () => {
-  const {changeTokenCompany} = useAuthCompany();
+  // const {changeTokenCompany} = useAuthCompany();
+  const { changeTokenCompany } = useAuthCookieCompany();
+  const [cookies, setCookie] = useCookies();
   const navigate = useNavigate();
   const {
     register,
@@ -19,6 +24,10 @@ const LoginCompany = () => {
   const handleLogin = async (body: LoginType) => {
     try {
       const result = await companyLogin(body);
+      const token = result?.token;
+      const id = result?.id;
+      setCookie("tokenCompany", token, { path: "/" });
+      setCookie("idCompany", id, { path: "/" });
       changeTokenCompany(result?.token);
       Swal.fire({
         position: "center",
@@ -36,6 +45,13 @@ const LoginCompany = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (cookies.idCompany) {
+      navigate(`/`);
+    }
+  }, []);
+
   return (
     <div className="w-full h-full bg-main p-20">
       <div className="flex flex-col justify-center items-center">

@@ -1,15 +1,23 @@
-import { useAuth } from "../utils/contexts/auth";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthCompany } from "../utils/contexts/auth_company";
+// import { useAuthCompany } from "../utils/contexts/auth_company";
+import { useCookies } from "react-cookie";
+import { useAuthCookie } from "../utils/contexts/newAuth";
+import company from "../assets/company.jpg";
+import { useAuthCookieCompany } from "../utils/contexts/newAuth_company";
 
 const Navbar = () => {
-  const { token, changeToken } = useAuth();
-  const { tokenCompany, changeTokenCompany } = useAuthCompany();
+  // const { token, changeToken } = useAuth();
+  const { js } = useAuthCookie();
+  const [cookies, setCookie, removeCookie] = useCookies<any>();
+  const { tokenCompany, changeTokenCompany } = useAuthCookieCompany();
+  const { tokenCookie } = useAuthCookie();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    changeToken();
+    // changeToken();
+    removeCookie("idCandidate", { path: "/" });
+    removeCookie("tokenCandidate", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -22,6 +30,8 @@ const Navbar = () => {
 
   const handleLogoutCompany = () => {
     changeTokenCompany();
+    removeCookie("idCompany", { path: "/" });
+    removeCookie("tokenCompany", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -40,8 +50,8 @@ const Navbar = () => {
             JobHuntz
           </Link>
         </div>
-        {token ? (
-          <div className="flex-none">
+        {tokenCookie ? (
+          <div className={`flex-none ${tokenCompany && "hidden"}`}>
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>
                 <Link to={"/lowongantersimpan"}>Disimpan</Link>
@@ -56,7 +66,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  <img alt="Tailwind CSS Navbar component" src={js.banners} />
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -89,7 +99,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img alt="Tailwind CSS Navbar component" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  <img alt="Tailwind CSS Navbar component" src={company} />
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">

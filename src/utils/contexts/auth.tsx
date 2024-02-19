@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from "react
 import axiosWithConfig, { setAxiosConfig } from "../apis/axiosWithConfig";
 import { JsType } from "../apis/jobseekers/types";
 import { getJs } from "../apis/jobseekers/api";
+// import { useCookies } from "react-cookie";
 
 interface Context {
   token: string;
@@ -22,6 +23,8 @@ const AuthContext = createContext<Context>(InitialState);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState(localStorage.getItem("token") ?? "");
   const [js, setJs] = useState<Partial<JsType>>({});
+  // const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
+  // const tokens = cookies.token;
 
   useEffect(() => {
     setAxiosConfig(token);

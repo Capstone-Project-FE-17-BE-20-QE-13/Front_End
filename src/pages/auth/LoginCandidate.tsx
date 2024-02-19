@@ -5,10 +5,16 @@ import { LoginType, loginSchema } from "../../utils/apis/auth/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { candidateLogin } from "../../utils/apis/auth/api";
 import Swal from "sweetalert2";
-import { useAuth } from "../../utils/contexts/auth";
+// import { useAuth } from "../../utils/contexts/auth";
+import { useCookies } from "react-cookie";
+// import { setAxiosConfig } from "../../utils/apis/axiosWithConfig";
+import { useEffect } from "react";
+import { useAuthCookie } from "../../utils/contexts/newAuth";
 
 const LoginCandidate = () => {
-  const { changeToken } = useAuth();
+  // const { changeToken } = useAuth();
+  const { changeToken } = useAuthCookie();
+  const [cookies, setCookie] = useCookies();
   const navigate = useNavigate();
   const {
     register,
@@ -19,8 +25,13 @@ const LoginCandidate = () => {
   const handleLogin = async (body: LoginType) => {
     try {
       const result = await candidateLogin(body);
+      const token = result?.token;
+      const id = result?.id;
+      setCookie("tokenCandidate", token, { path: "/" });
+      setCookie("idCandidate", id, { path: "/" });
+      // setAxiosConfig(token);
       changeToken(result?.token);
-      console.log(result)
+      console.log(result);
       Swal.fire({
         position: "center",
         icon: "success",
@@ -37,6 +48,12 @@ const LoginCandidate = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (cookies.idCandidate) {
+      navigate(`/`);
+    }
+  }, []);
 
   return (
     <div className="w-full h-full bg-main p-20">
