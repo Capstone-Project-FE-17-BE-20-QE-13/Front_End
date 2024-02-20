@@ -4,15 +4,17 @@ import { RiImageAddFill } from "react-icons/ri";
 // import { useAuthCompany } from "../../utils/contexts/auth_company";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CompanyAddType, CompanyType, companySchema } from "../../utils/apis/company/types";
+import { CompanyAddType, CompanyType, VerifyType, companySchema, verifySchema } from "../../utils/apis/company/types";
 import { useEffect, useState } from "react";
-import { updateCompany } from "../../utils/apis/company/api";
+import { createTransaction, updateCompany } from "../../utils/apis/company/api";
 // import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
 import { useAuthCookie } from "../../utils/contexts/newAuth";
 import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
 const ProfileCompany = () => {
   // const { company } = useAuthCookieCompany();
+  const navigate = useNavigate();
   const { company } = useAuthCookie();
   const [isSuccess, setIsSuccess] = useState<string>("");
   const { register, handleSubmit, setValue } = useForm<CompanyType>({
@@ -30,6 +32,13 @@ const ProfileCompany = () => {
       banners: "",
       status_verification: "",
       description: "",
+    },
+  });
+
+  const { register: verifyRegister, handleSubmit: verifySubmit } = useForm<VerifyType>({
+    resolver: zodResolver(verifySchema),
+    defaultValues: {
+      id: "",
     },
   });
 
@@ -75,6 +84,18 @@ const ProfileCompany = () => {
       }, 3000);
     }
   };
+
+  const handleTransaction = async (data: VerifyType) => {
+    console.log(data);
+    try {
+      const result = await createTransaction(data);
+      console.log(result);
+      navigate("/payment");
+    } catch (error: any) {
+      console.log((error as Error).message);
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -90,7 +111,7 @@ const ProfileCompany = () => {
               <h1 className="text-3xl font-bold">{company.company_name}</h1>
               <p>{company.email}</p>
             </div>
-            <MdVerified className="text-3xl text-teal-300" />
+            {company.status_verification == "Verified" && <MdVerified className="text-3xl text-teal-300" />}
           </div>
           <div className="flex gap-5 mb-10">
             <div>
@@ -120,6 +141,11 @@ const ProfileCompany = () => {
             <label htmlFor="my_modal_7" className="btn w-[80px] h-10 p-1 rounded-md bg-secondary text-white">
               Edit
             </label>
+            {company.status_verification == "Unverified" && (
+              <label htmlFor="my_modal_8" className="btn w-[80px] h-10 p-1 rounded-md bg-secondary text-white">
+                Verifikasi Akun
+              </label>
+            )}
           </div>
           <h1 className="text-xl font-bold mb-3">Deskripsi</h1>
           <p className="mb-5 text-justify">{company.description}</p>
@@ -174,6 +200,24 @@ const ProfileCompany = () => {
             </form>
           </div>
           <label className="modal-backdrop" htmlFor="my_modal_7">
+            Close
+          </label>
+        </div>
+
+        <input type="checkbox" id="my_modal_8" className="modal-toggle" />
+        <div className="modal" role="dialog">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-center">Verifikasi Akun</h3>
+            <div className="my-5">
+              <h1>Rp. 2.000.000</h1>
+              <h1>Keuntungan akun premium bisa buat job vacancy lebih dari 3</h1>
+            </div>
+            <form className="flex flex-col gap-5" onSubmit={verifySubmit(handleTransaction)}>
+              <input type="hidden" value="test" {...verifyRegister("id")} />
+              <input type="submit" value="Checkout" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
+            </form>
+          </div>
+          <label className="modal-backdrop" htmlFor="my_modal_8">
             Close
           </label>
         </div>

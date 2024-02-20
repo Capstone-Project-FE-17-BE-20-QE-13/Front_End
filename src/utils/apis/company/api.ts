@@ -1,6 +1,6 @@
 import { ResponsePayload } from "../../types/api";
 import axiosWithConfig from "../axiosWithConfig";
-import { CompanyAddType, CompanyType } from "./types";
+import { CompanyAddType, CompanyType, PaymentType, TransactionResponse } from "./types";
 
 export const getCompany = async () => {
   try {
@@ -28,6 +28,33 @@ export const updateCompany = async (body: CompanyAddType) => {
   try {
     const response = await axiosWithConfig.put("company", formData);
     return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const createTransaction = async (data: any) => {
+  try {
+    const response = await axiosWithConfig.post("order-company", data);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const createTransactionJs = async (data: any) => {
+  try {
+    const response = await axiosWithConfig.post("order/jobseeker", data);
+    return response.data as { message: string };
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const payment = async (data: PaymentType) => {
+  try {
+    const response = await axiosWithConfig.post("payments", data);
+    return response.data as ResponsePayload<TransactionResponse>;
   } catch (error: any) {
     throw new Error(error.message);
   }

@@ -67,6 +67,8 @@ export const AuthCookieProvider = ({ children }: { children: ReactNode }) => {
       setCookie("token", newToken, { path: "/" });
     } else {
       removeCookie("token", { path: "/" });
+      removeCookie("id", { path: "/" });
+      removeCookie("role", { path: "/" });
       setJs({});
       setCompany({});
     }

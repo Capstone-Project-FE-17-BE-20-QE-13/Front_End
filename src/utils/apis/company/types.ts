@@ -22,7 +22,17 @@ export const companySchema = z.object({
   description: z.string(),
 });
 
+export const verifySchema = z.object({
+  id: z.string(),
+});
+
+export const paymentSchema = z.object({
+  bank_account: z.string(),
+});
+
 export type CompanyType = z.infer<typeof companySchema>;
+export type VerifyType = z.infer<typeof verifySchema>;
+export type PaymentType = z.infer<typeof paymentSchema>;
 
 export interface CompanyAddType {
   id?: number;
@@ -37,4 +47,16 @@ export interface CompanyAddType {
   banners?: any;
   status_verification?: string | any;
   description?: string | any;
+}
+
+export interface TransactionResponse {
+  id?: string;
+  order_id?: string;
+  amount?: string;
+  bank_account?: string;
+  va_number?: string;
+  user_id?: string;
+  status?: string;
+  created_at?: string;
+  updated_at?: string;
 }

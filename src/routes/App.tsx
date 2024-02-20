@@ -14,6 +14,7 @@ import ProfileUser from "../pages/profile-user";
 import RiwayatLamaran from "../pages/riwayat-lamaran";
 import LowonganTersimpan from "../pages/lowongan-tersimpan";
 import ProtectedRoute from "./ProtectedRoute";
+import Payment from "../pages/payment";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/daftarpelamar/:id" element={<DaftarPelamar />} />
           <Route path="/riwayatlamaran" element={<RiwayatLamaran />} />
           <Route path="/lowongantersimpan" element={<LowonganTersimpan />} />
+          <Route path="/payment" element={<Payment />} />
         </Route>
         <Route path="*" element={<p className="text-center text-3xl font-medium py-20">There's nothing here: 404!</p>} />
       </Routes>

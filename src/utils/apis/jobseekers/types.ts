@@ -20,6 +20,7 @@ export const jobseekerSchema = z.object({
   gender: z.string(),
   resume: z.string(),
   password: z.string().optional(),
+  stat_verif: z.string().optional(),
   Careers: z.string().array().optional(),
   Educations: z.string().array().optional(),
   Cvs: z
