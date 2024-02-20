@@ -1,6 +1,6 @@
 import { ResponsePayload } from "../../types/api";
 import axiosWithConfig from "../axiosWithConfig";
-import { CompanyType } from "./types";
+import { CompanyAddType, CompanyType } from "./types";
 
 export const getCompany = async () => {
   try {
@@ -11,7 +11,7 @@ export const getCompany = async () => {
   }
 };
 
-export const updateCompany = async (body: CompanyType) => {
+export const updateCompany = async (body: CompanyAddType) => {
   const formData = new FormData();
 
   formData.append("full_name", body.full_name);

@@ -6,6 +6,7 @@ import { getFavorite } from "../../utils/apis/favorite/api";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 import Swal from "sweetalert2";
 import jobVacancy from "../../assets/job-vacancy.jpg";
+import { Helmet } from "react-helmet";
 
 const LowonganTersimpan = () => {
   const [favoriteData, setFavoriteData] = useState<FavoriteType[]>();
@@ -51,6 +52,9 @@ const LowonganTersimpan = () => {
 
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Lowongan Tersimpan</title>
+      </Helmet>
       <Layout>
         <div className="mx-20 my-10">
           <h1 className="text-2xl font-bold mb-5">Lowongan Tersimpan</h1>

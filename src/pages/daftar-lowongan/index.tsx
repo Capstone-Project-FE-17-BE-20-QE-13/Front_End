@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 import { useAuthCompany } from "../../utils/contexts/auth_company";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const DaftarLowongan = () => {
   const { company } = useAuthCompany();
@@ -38,6 +39,8 @@ const DaftarLowongan = () => {
     },
   });
 
+  // console.log(vacancies);
+
   useEffect(() => {
     setValue("company_id", company?.id as number);
     setValue("id", detailVacancy?.id as number);
@@ -63,7 +66,7 @@ const DaftarLowongan = () => {
       }, 3000);
       reset();
     } catch (error: any) {
-      console.log(error as Error);
+      console.log((error as Error).message);
       setIsSuccess("no");
       setTimeout(() => {
         setIsSuccess("");
@@ -143,6 +146,9 @@ const DaftarLowongan = () => {
 
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Daftar Lowongan</title>
+      </Helmet>
       <Layout>
         <div className="mx-20 my-10">
           <div className="flex gap-5 items-center mb-5">

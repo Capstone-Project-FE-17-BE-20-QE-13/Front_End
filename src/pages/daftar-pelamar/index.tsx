@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { JsType } from "../../utils/apis/jobseekers/types";
+import { Helmet } from "react-helmet";
 
 const DaftarPelamar = () => {
   const { id } = useParams();
@@ -71,6 +72,9 @@ const DaftarPelamar = () => {
 
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Daftar Pelamar</title>
+      </Helmet>
       <Layout>
         <div className="mx-20 my-10">
           <h1 className="text-2xl font-bold mb-5">Daftar Pelamar</h1>

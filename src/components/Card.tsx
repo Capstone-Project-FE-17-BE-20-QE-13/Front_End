@@ -3,7 +3,7 @@ import { IoBookmark } from "react-icons/io5";
 import { VacanciesProps } from "../utils/apis/vacancy/types";
 import jobVacancy from "../assets/job-vacancy.jpg";
 
-const Card: FC<VacanciesProps> = ({ position, company_name, address, salary_range }) => {
+const Card: FC<VacanciesProps> = ({ position, job_type, address, salary_range }) => {
   return (
     <>
       <div className="w-full flex my-6 p-[20px] border shadow-md rounded-md gap-5">
@@ -13,7 +13,7 @@ const Card: FC<VacanciesProps> = ({ position, company_name, address, salary_rang
         <div className="flex flex-col gap-5 grow">
           <div>
             <h1 className="text-md font-bold">{position}</h1>
-            <p>{company_name}</p>
+            <p>{job_type}</p>
           </div>
           <div>
             <p>{address}</p>
@@ -21,7 +21,7 @@ const Card: FC<VacanciesProps> = ({ position, company_name, address, salary_rang
           </div>
         </div>
         <div>
-          <IoBookmark className="text-2xl" /> 
+          <IoBookmark className="text-2xl" />
         </div>
       </div>
     </>

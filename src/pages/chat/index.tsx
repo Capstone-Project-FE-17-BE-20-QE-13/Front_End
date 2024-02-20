@@ -1,9 +1,13 @@
+import { Helmet } from "react-helmet";
 import Layout from "../../components/Layout";
 import { IoSend } from "react-icons/io5";
 
 const Chatting = () => {
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Chat</title>
+      </Helmet>
       <Layout>
         <div className="my-10 mx-16 h-[70vh]">
           <h1 className="text-2xl font-bold">Pesan</h1>

@@ -23,3 +23,18 @@ export const companySchema = z.object({
 });
 
 export type CompanyType = z.infer<typeof companySchema>;
+
+export interface CompanyAddType {
+  id?: number;
+  full_name?: string | any;
+  email?: string | any;
+  company_name?: string | any;
+  address?: string | any;
+  phone?: string | any;
+  company_size?: string | any;
+  company_type?: string | any;
+  website?: string | any;
+  banners?: any;
+  status_verification?: string | any;
+  description?: string | any;
+}

@@ -17,7 +17,7 @@ const Navbar = () => {
   const handleLogout = () => {
     removeCookie("id", { path: "/" });
     removeCookie("token", { path: "/" });
-    removeCookie("roles", { path: "/" });
+    removeCookie("role", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",
@@ -31,7 +31,7 @@ const Navbar = () => {
   const handleLogoutCompany = () => {
     removeCookie("id", { path: "/" });
     removeCookie("token", { path: "/" });
-    removeCookie("roles", { path: "/" });
+    removeCookie("role", { path: "/" });
     Swal.fire({
       position: "center",
       icon: "success",

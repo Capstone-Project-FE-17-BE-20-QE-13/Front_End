@@ -4,11 +4,12 @@ import { RiImageAddFill } from "react-icons/ri";
 // import { useAuthCompany } from "../../utils/contexts/auth_company";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CompanyType, companySchema } from "../../utils/apis/company/types";
+import { CompanyAddType, CompanyType, companySchema } from "../../utils/apis/company/types";
 import { useEffect, useState } from "react";
 import { updateCompany } from "../../utils/apis/company/api";
 // import { useAuthCookieCompany } from "../../utils/contexts/newAuth_company";
 import { useAuthCookie } from "../../utils/contexts/newAuth";
+import { Helmet } from "react-helmet";
 
 const ProfileCompany = () => {
   // const { company } = useAuthCookieCompany();
@@ -42,12 +43,13 @@ const ProfileCompany = () => {
     setValue("company_size", company?.company_size as string);
     setValue("company_type", company?.company_type as string);
     setValue("website", company?.website as string);
-    setValue("banners", company?.banners as string);
+    // setValue("banners", company?.banners as string);
     setValue("status_verification", company?.status_verification as string);
     setValue("description", company?.description as string);
   }, [company]);
 
-  const handleUpdateCompany = async (body: CompanyType) => {
+  const handleUpdateCompany = async (body: CompanyAddType) => {
+    console.log(body);
     const data = body;
     if (data.banners == company.banners) {
       delete data.banners;
@@ -55,8 +57,6 @@ const ProfileCompany = () => {
     if (data.status_verification == company.status_verification) {
       delete data.status_verification;
     }
-
-    console.log("data = ", data.banners[0]);
 
     try {
       const result = await updateCompany(data);
@@ -77,6 +77,9 @@ const ProfileCompany = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Profile Company</title>
+      </Helmet>
       <Layout>
         <div className="mx-5 my-5 sm:mx-20 sm:my-10">
           <div className="w-full h-[200px] rounded-md mb-10">
@@ -167,7 +170,7 @@ const ProfileCompany = () => {
                   return <div></div>;
                 }
               })()}
-              <input type="submit" placeholder="Edit" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
+              <input type="submit" value="Edit" className="w-28 bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 p-3 rounded-md text-white self-end" />
             </form>
           </div>
           <label className="modal-backdrop" htmlFor="my_modal_7">

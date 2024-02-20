@@ -6,6 +6,7 @@ import { VacancyType } from "../../utils/apis/vacancy/types";
 import Swal from "sweetalert2";
 import { addToFavorite } from "../../utils/apis/favorite/api";
 import { addToApplication } from "../../utils/apis/applications/api";
+import { Helmet } from "react-helmet";
 
 const Detail = () => {
   const { id } = useParams();
@@ -70,6 +71,9 @@ const Detail = () => {
 
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Detail Lowongan</title>
+      </Helmet>
       <Layout>
         <div className="mx-5 my-5 sm:mx-20 sm:my-10">
           <div className="w-full h-[200px] rounded-md mb-10">
@@ -95,7 +99,9 @@ const Detail = () => {
             </div>
           </div>
           <div className="flex gap-3 my-5">
-            <button className="w-[80px] p-1 rounded-md bg-secondary text-white" onClick={() => addApplicationHandle(vacancyData.id)}>Lamar</button>
+            <button className="w-[80px] p-1 rounded-md bg-secondary text-white" onClick={() => addApplicationHandle(vacancyData.id)}>
+              Lamar
+            </button>
             <button className="w-[80px] p-1 rounded-md bg-main text-white" onClick={() => addToFavoriteHandle(vacancyData.id)}>
               Simpan
             </button>

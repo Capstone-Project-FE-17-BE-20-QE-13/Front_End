@@ -6,6 +6,7 @@ import { AllVacancies } from "../../utils/apis/vacancy/types";
 import { Link } from "react-router-dom";
 // import { useAuth } from "../../utils/contexts/auth";
 import { useAuthCookie } from "../../utils/contexts/newAuth";
+import { Helmet } from "react-helmet";
 
 const Home = () => {
   const { tokenCookie } = useAuthCookie();
@@ -15,6 +16,8 @@ const Home = () => {
   useEffect(() => {
     fetchAllVacancies(searchTerm);
   }, []);
+
+  // console.log(vacancies);
 
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -26,9 +29,7 @@ const Home = () => {
     try {
       const result = await getAllVacancies();
       const allVacancies = result.data;
-      const filterVacancy = allVacancies.filter((item) =>
-        item.name.toLowerCase().includes(itemName.toLowerCase())
-      );
+      const filterVacancy = allVacancies.filter((item) => item.name.toLowerCase().includes(itemName.toLowerCase()));
       setVacancies(filterVacancy);
     } catch (error: any) {
       (error as Error).message;
@@ -41,23 +42,14 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Home</title>
+      </Helmet>
       <Layout>
         <div className="my-10">
           <div className="flex justify-center gap-5">
-            <input
-              type="text"
-              className="p-2 rounded-xl drop-shadow-md outline-none"
-              placeholder="Cari Lowongan"
-              value={searchTerm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setSearchTerm(e.target.value)
-              }
-            />
-            <select
-              name="size"
-              id="size"
-              className="p-2 rounded-xl drop-shadow-md outline-none"
-            >
+            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Cari Lowongan" value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)} />
+            <select name="size" id="size" className="p-2 rounded-xl drop-shadow-md outline-none">
               <option value="" disabled selected>
                 Bidang Pekerjaan
               </option>
@@ -71,17 +63,8 @@ const Home = () => {
               <option value="manajemen">Manajemen</option>
               <option value="perkantoran">Administrasi Perkantoran</option>
             </select>
-            <input
-              type="text"
-              className="p-2 rounded-xl drop-shadow-md outline-none"
-              placeholder="Lokasi"
-            />
-            <input
-              type="submit"
-              className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none"
-              value="cari"
-              onClick={handleSearch}
-            />
+            <input type="text" className="p-2 rounded-xl drop-shadow-md outline-none" placeholder="Lokasi" />
+            <input type="submit" className="py-2 px-5 bg-secondary text-white rounded-xl drop-shadow-md outline-none" value="cari" onClick={handleSearch} />
           </div>
         </div>
         <div className="mx-20">
@@ -91,31 +74,16 @@ const Home = () => {
               tokenCookie != ""
                 ? item.status == "Dibuka" && (
                     <Link to={`/detail/${item.id}`}>
-                      <Card
-                        position={item.name}
-                        company_name={item.job_type}
-                        address="Jakarta"
-                        salary_range={item.salary_range}
-                        key={index}
-                      />
+                      <Card position={item.name} job_type={item.job_type} address={item.address} salary_range={item.salary_range} key={index} />
                     </Link>
                   )
                 : item.status == "Dibuka" && (
                     <Link to={`/logincandidate`}>
-                      <Card
-                        position={item.name}
-                        company_name={item.job_type}
-                        address="Jakarta"
-                        salary_range={item.salary_range}
-                        key={index}
-                      />
+                      <Card position={item.name} job_type={item.job_type} address={item.address} salary_range={item.salary_range} key={index} />
                     </Link>
                   )
             )}
-          <div
-            className="w-full p-3 text-center shadow-md bg-primary rounded-md my-5 cursor-pointer active:bg-blue-600"
-            onClick={loadMoreHandle}
-          >
+          <div className="w-full p-3 text-center shadow-md bg-primary rounded-md my-5 cursor-pointer active:bg-blue-600" onClick={loadMoreHandle}>
             <h1 className="font-bold text-white">Load More</h1>
           </div>
         </div>

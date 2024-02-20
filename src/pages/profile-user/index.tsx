@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import axiosWithConfig from "../../utils/apis/axiosWithConfig";
 import { RiImageAddFill } from "react-icons/ri";
 import { useAuthCookie } from "../../utils/contexts/newAuth";
+import { Helmet } from "react-helmet";
 
 const ProfileUser = () => {
   const { js } = useAuthCookie();
@@ -483,6 +484,9 @@ const ProfileUser = () => {
 
   return (
     <>
+      <Helmet>
+        <title>JobHuntz | Profile Jobseeker</title>
+      </Helmet>
       <Layout>
         <div className="mx-20 my-16">
           <div className="flex gap-8 mb-10">

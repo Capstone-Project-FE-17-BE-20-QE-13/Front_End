@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { useAuthCookie } from "../../utils/contexts/newAuth";
+import { Helmet } from "react-helmet";
 
 const LoginCandidate = () => {
   // const { changeToken } = useAuth();
@@ -55,30 +56,35 @@ const LoginCandidate = () => {
   }, []);
 
   return (
-    <div className="w-full h-full bg-main p-20">
-      <div className="flex flex-col justify-center items-center">
-        <img src={loginImage} className="mb-5" />
-        <div className="py-5 px-8 sm:py-[35px] sm:px-[90px] bg-white rounded-lg">
-          <div className="my-5">
-            <h1 className="text-2xl font-semibold mb-4">Masuk</h1>
-            <p className="font-semibold">Masuk sebagai kandidat</p>
+    <>
+      <Helmet>
+        <title>JobHuntz | Jobseeker Login</title>
+      </Helmet>
+      <div className="w-full h-full bg-main p-20">
+        <div className="flex flex-col justify-center items-center">
+          <img src={loginImage} className="mb-5" />
+          <div className="py-5 px-8 sm:py-[35px] sm:px-[90px] bg-white rounded-lg">
+            <div className="my-5">
+              <h1 className="text-2xl font-semibold mb-4">Masuk</h1>
+              <p className="font-semibold">Masuk sebagai kandidat</p>
+            </div>
+            <form className="flex flex-col gap-3" onSubmit={handleSubmit(handleLogin)}>
+              <input type="email" {...register("email")} className="p-2 sm:p-[13px] sm:w-[320px] rounded-xl drop-shadow-md outline-none" placeholder="Email" />
+              {errors.email && <p className="text-sm text-red-500 -mt-3">{errors.email.message}</p>}
+              <input type="password" {...register("password")} className="p-2 sm:p-[13px] sm:w-[320px] rounded-xl drop-shadow-md outline-none" placeholder="Password" />
+              {errors.password && <p className="text-sm text-red-500 -mt-3">{errors.password.message}</p>}
+              <input type="submit" className="p-2 sm:p-[13px] sm:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none my-5" value="Login" />
+            </form>
+            <p className="text-center">
+              Tidak punya akun?{" "}
+              <Link to={"/candidate"} className="text-primary hover:text-secondary">
+                Daftar
+              </Link>
+            </p>
           </div>
-          <form className="flex flex-col gap-3" onSubmit={handleSubmit(handleLogin)}>
-            <input type="email" {...register("email")} className="p-2 sm:p-[13px] sm:w-[320px] rounded-xl drop-shadow-md outline-none" placeholder="Email" />
-            {errors.email && <p className="text-sm text-red-500 -mt-3">{errors.email.message}</p>}
-            <input type="password" {...register("password")} className="p-2 sm:p-[13px] sm:w-[320px] rounded-xl drop-shadow-md outline-none" placeholder="Password" />
-            {errors.password && <p className="text-sm text-red-500 -mt-3">{errors.password.message}</p>}
-            <input type="submit" className="p-2 sm:p-[13px] sm:w-[320px] bg-secondary cursor-pointer hover:bg-orange-500 active:bg-orange-600 text-white rounded-xl drop-shadow-md outline-none my-5" value="Login" />
-          </form>
-          <p className="text-center">
-            Tidak punya akun?{" "}
-            <Link to={"/candidate"} className="text-primary hover:text-secondary">
-              Daftar
-            </Link>
-          </p>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
