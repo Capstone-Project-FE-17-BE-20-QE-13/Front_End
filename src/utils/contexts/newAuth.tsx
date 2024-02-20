@@ -30,7 +30,7 @@ export const AuthCookieProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setAxiosConfig(tokenCookie);
-    tokenCookie !== "" && cookies.role == "jobseker" && fetchJs();
+    tokenCookie !== "" && cookies.role == "jobseeker" && fetchJs();
     tokenCookie !== "" && cookies.role == "company" && fetchCompany();
     axiosWithConfig.interceptors.response.use(
       (response) => response,

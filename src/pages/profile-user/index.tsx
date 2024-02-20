@@ -24,6 +24,7 @@ const ProfileUser = () => {
   // const [cvError, setCVError] = useState<any>();
 
   // console.log(cv);
+  // console.log(js);
 
   const {
     register,

@@ -50,7 +50,7 @@ const Navbar = () => {
             JobHuntz
           </Link>
         </div>
-        {cookies.role == "jobseker" ? (
+        {cookies.role == "jobseeker" ? (
           <div className={`flex-none ${cookies.role == "company" && "hidden"}`}>
             <ul className="hidden sm:flex gap-5 text-white mx-5">
               <li>

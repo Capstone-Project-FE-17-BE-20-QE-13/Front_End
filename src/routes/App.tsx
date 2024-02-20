@@ -13,25 +13,29 @@ import DaftarPelamar from "../pages/daftar-pelamar";
 import ProfileUser from "../pages/profile-user";
 import RiwayatLamaran from "../pages/riwayat-lamaran";
 import LowonganTersimpan from "../pages/lowongan-tersimpan";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/logincandidate" element={<LoginCandidate />} />
-        <Route path="/logincompany" element={<LoginCompany />} />
-        <Route path="/role" element={<Role />} />
-        <Route path="/candidate" element={<Candidate />} />
-        <Route path="/company" element={<Company />} />
-        <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/chat" element={<Chatting />} />
-        <Route path="/profilecompany" element={<ProfileCompany />} />
-        <Route path="/profileuser" element={<ProfileUser />} />
-        <Route path="/daftarlowongan" element={<DaftarLowongan />} />
-        <Route path="/daftarpelamar/:id" element={<DaftarPelamar />} />
-        <Route path="/riwayatlamaran" element={<RiwayatLamaran />} />
-        <Route path="/lowongantersimpan" element={<LowonganTersimpan />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/logincandidate" element={<LoginCandidate />} />
+          <Route path="/logincompany" element={<LoginCompany />} />
+          <Route path="/role" element={<Role />} />
+          <Route path="/candidate" element={<Candidate />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/chat" element={<Chatting />} />
+          <Route path="/profilecompany" element={<ProfileCompany />} />
+          <Route path="/profileuser" element={<ProfileUser />} />
+          <Route path="/daftarlowongan" element={<DaftarLowongan />} />
+          <Route path="/daftarpelamar/:id" element={<DaftarPelamar />} />
+          <Route path="/riwayatlamaran" element={<RiwayatLamaran />} />
+          <Route path="/lowongantersimpan" element={<LowonganTersimpan />} />
+        </Route>
+        <Route path="*" element={<p className="text-center text-3xl font-medium py-20">There's nothing here: 404!</p>} />
       </Routes>
     </BrowserRouter>
   );
