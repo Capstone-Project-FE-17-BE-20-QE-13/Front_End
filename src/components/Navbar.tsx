@@ -8,13 +8,14 @@ import company from "../assets/company.jpg";
 const Navbar = () => {
   // const { token, changeToken } = useAuth();
   const { js } = useAuthCookie();
-  const [cookies, removeCookie] = useCookies<any>(["id", "token", "role"]);
+  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token", "role"]);
   // const { tokenCompany, changeTokenCompany } = useAuthCookieCompany();
   // const { tokenCookie } = useAuthCookie();
   const navigate = useNavigate();
   // console.log(cookies.role);
 
   const handleLogout = () => {
+    setCookie("logout", undefined, { path: "/" });
     removeCookie("id", { path: "/" });
     removeCookie("token", { path: "/" });
     removeCookie("role", { path: "/" });
@@ -29,6 +30,7 @@ const Navbar = () => {
   };
 
   const handleLogoutCompany = () => {
+    setCookie("logout", undefined, { path: "/" });
     removeCookie("id", { path: "/" });
     removeCookie("token", { path: "/" });
     removeCookie("role", { path: "/" });

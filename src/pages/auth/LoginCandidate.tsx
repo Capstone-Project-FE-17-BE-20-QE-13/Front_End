@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet";
 const LoginCandidate = () => {
   // const { changeToken } = useAuth();
   const { changeToken } = useAuthCookie();
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const {
     register,
@@ -31,6 +31,9 @@ const LoginCandidate = () => {
       setCookie("token", token, { path: "/" });
       setCookie("id", id, { path: "/" });
       setCookie("role", role, { path: "/" });
+      if (cookies.logout) {
+        removeCookie("logout", { path: "/" });
+      }
       changeToken(result?.token);
       Swal.fire({
         position: "center",
