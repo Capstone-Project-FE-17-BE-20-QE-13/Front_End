@@ -22,7 +22,11 @@ export const jobseekerSchema = z.object({
   password: z.string().optional(),
   Careers: z.string().array().optional(),
   Educations: z.string().array().optional(),
-  Cvs: z.string().array().any().optional(),
+  Cvs: z
+    .object({
+      cv_file: z.string(),
+    })
+    .optional(),
   Licenses: z.string().array().optional(),
   Skills: z.string().array().optional(),
 });
