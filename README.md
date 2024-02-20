@@ -1,6 +1,6 @@
 # Welcome to JobHuntz
 
-.
+![App Screenshot](https://github.com/Capstone-Project-Kel-3-FE17-BE20-QE13/Front_End/blob/main/src/assets/jobHuntz.png)
 
 ## 🚀 Deployment
 
