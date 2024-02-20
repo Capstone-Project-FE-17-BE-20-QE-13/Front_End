@@ -1,6 +1,6 @@
 import { ResponsePayload } from "../../types/api";
 import axiosWithConfig from "../axiosWithConfig";
-import { CVType, CareersType, EducationType, JobseekerType, JobseekerTypeApi, JsType, LicenseType, SkillType } from "./types";
+import { CVType, CareersType, EducationType, JobseekerType, JsType, LicenseType, SkillType } from "./types";
 
 export const getJs = async () => {
   try {

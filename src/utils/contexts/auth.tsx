@@ -24,7 +24,7 @@ const InitialState = {
 const AuthContext = createContext<Context>(InitialState);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [cookies, setCookie, removeCookie] = useCookies<any>(["idCandidate", "tokenCandidate", "idCompany", "tokenCompany"]);
+  const [cookies] = useCookies<any>(["idCandidate", "tokenCandidate", "idCompany", "tokenCompany"]);
   const [token, setToken] = useState(localStorage.getItem("token") ?? "");
   const [js, setJs] = useState<Partial<JsType>>({});
   // const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token"]);
@@ -70,9 +70,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchJs,
   };
 
-  return cookies.tokenCandidate ? <AuthCookieProvider>{children}</AuthCookieProvider> : <AuthCompanyCookieProvider>{children}</AuthCompanyCookieProvider>;
+  // return cookies.tokenCandidate ? <AuthCookieProvider>{children}</AuthCookieProvider> : <AuthCompanyCookieProvider>{children}</AuthCompanyCookieProvider>;
 
-  // return <AuthContext.Provider value={AuthContextValue}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={AuthContextValue}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

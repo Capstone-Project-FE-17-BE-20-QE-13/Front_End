@@ -21,7 +21,7 @@ const ProfileUser = () => {
   const [skill, setSkill] = useState<SkillType[]>();
   const [license, setLicense] = useState<LicenseType[]>();
   const [cv, setCV] = useState<Partial<CVType>>({});
-  const [cvError, setCVError] = useState<any>();
+  // const [cvError, setCVError] = useState<any>();
 
   // console.log(cv);
 
@@ -188,7 +188,6 @@ const ProfileUser = () => {
         setIsSuccess("");
         // window.location.reload();
       }, 3000);
-      fetchJs();
     } catch (error: any) {
       console.log(error as Error);
       setIsSuccess("no");
@@ -477,7 +476,7 @@ const ProfileUser = () => {
       setCV(result.data);
       // console.log(result.data);
     } catch (error) {
-      setCVError(error);
+      console.log(error);
     }
   };
 

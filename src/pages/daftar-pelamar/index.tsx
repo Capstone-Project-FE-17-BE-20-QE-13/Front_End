@@ -6,6 +6,7 @@ import { ChangeType, ListApplication, changeStatusSchema } from "../../utils/api
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { JsType } from "../../utils/apis/jobseekers/types";
 
 const DaftarPelamar = () => {
   const { id } = useParams();

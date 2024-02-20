@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useAuthCookie } from "../utils/contexts/newAuth";
 import company from "../assets/company.jpg";
-import { useAuthCookieCompany } from "../utils/contexts/newAuth_company";
+// import { useAuthCookieCompany } from "../utils/contexts/newAuth_company";
 
 const Navbar = () => {
   // const { token, changeToken } = useAuth();
   const { js } = useAuthCookie();
-  const [cookies, setCookie, removeCookie] = useCookies<any>(["id", "token", "role"]);
+  const [cookies, removeCookie] = useCookies<any>(["id", "token", "role"]);
   // const { tokenCompany, changeTokenCompany } = useAuthCookieCompany();
   // const { tokenCookie } = useAuthCookie();
   const navigate = useNavigate();
